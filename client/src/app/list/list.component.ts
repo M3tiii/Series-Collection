@@ -1,25 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { CollectionService } from '../services/collection.service';
+import { SeriesService } from '../services/series.service';
+import { Element } from '../services/elements';
 
 @Component({
   selector: 'app-list',
   templateUrl: 'list.component.html',
   styleUrls: ['list.component.css'],
-  providers: [CollectionService]
+  providers: [SeriesService],
+  inputs: ['elements'],
 })
 export class ListComponent implements OnInit {
-  series: any[];
+  collection: any[];
+  elements: Element[];
 
-  constructor(private seriesService: CollectionService) { }
+  constructor(private service: SeriesService) { }
 
-  getSeries() {
-    this.seriesService.getSeries()
-      .then(series => this.series = series)
+  fetch() {
+    this.service.get()
+      .then(collection => this.collection = collection)
       .catch(error => console.log(error))
   }
 
   ngOnInit() {
-    this.getSeries();
+    this.fetch();
   }
 
 }
