@@ -3,12 +3,11 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class CollectionService {
-  private apiURL = 'http://localhost:8000/series';
+export class BaseService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private apiURL) { }
 
-  getSeries() {
+  get() {
     return this.http.get(this.apiURL)
       .toPromise()
       .then(response => response.json())
