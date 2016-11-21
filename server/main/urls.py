@@ -19,6 +19,7 @@ from series import views
 
 router = routers.DefaultRouter()
 router.register(r'series', views.SeriesViewSet)
+router.register(r'season', views.SeasonViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
