@@ -18,12 +18,15 @@ from rest_framework import routers
 from series import views
 
 router = routers.DefaultRouter()
-router.register(r'series', views.SeriesViewSet)
-router.register(r'season', views.SeasonViewSet)
+router.register(prefix='series', viewset = views.SeriesViewSet)
+router.register(prefix='season', viewset = views.SeasonViewSet)
+router.register(prefix='episode', viewset = views.EpisodeViewSet)
+router.register(prefix='award', viewset = views.AwardViewSet)
+router.register(prefix='company', viewset = views.CompanyViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-]
+urlpatterns = router.urls#[
+#     url(r'^', include(router.urls)),
+#     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+# ]

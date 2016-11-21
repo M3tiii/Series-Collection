@@ -1,4 +1,4 @@
-from series.models import Series, Season
+from series.models import Series, Season, Episode, Award, Company
 from rest_framework import serializers
 
 
@@ -11,3 +11,18 @@ class SeasonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Season
         fields = ('series', 'number', 'episodes')
+
+class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Episode
+        fields = ('series', 'season', 'title', 'releaseDate', 'runtime')
+
+class AwardSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Award
+        fields = ('series', 'name', 'releaseDate')
+
+class CompanySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('series', 'name', 'country')
