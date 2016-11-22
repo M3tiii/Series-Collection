@@ -1,4 +1,4 @@
-from series.models import Series, Season, Episode, Award, Company
+from series.models import Series, Season, Episode, Award, Company, Stat, Person, Director
 from rest_framework import serializers
 
 
@@ -20,9 +20,24 @@ class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
 class AwardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Award
-        fields = ('series', 'name', 'releaseDate')
+        fields = ('series', 'name', 'year')
 
 class CompanySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Company
         fields = ('series', 'name', 'country')
+
+class StatSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Stat
+        fields = ('ratingF', 'ratingI', 'votesF', 'votesI')
+
+class PersonSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Person
+        fields = ('name', 'surname', 'birthDate')
+
+class DirectorSerializer(PersonSerializer):
+    class Meta:
+        model = Director
+        fields = ('__all__') #id_director dont show?
