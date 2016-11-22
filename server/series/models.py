@@ -37,6 +37,12 @@ class Stat(models.Model):
     votesF = models.IntegerField(default=0)
     votesI = models.IntegerField(default=0)
 
+class StatSeries(Stat):
+    views = models.IntegerField(default=0)
+
+class StatEpisode(Stat):
+    views = models.IntegerField(default=0)
+
 class Person(models.Model):
     name = models.CharField(max_length=100, default="")
     surname = models.CharField(max_length=100, default="")
@@ -44,3 +50,9 @@ class Person(models.Model):
 
 class Director(Person):
     id_director = models.IntegerField(default=0)
+
+class Creator(Person):
+    id_creator = models.IntegerField(default=0)
+
+class Actor(Person):
+    id_actor = models.IntegerField(default=0)

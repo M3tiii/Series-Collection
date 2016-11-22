@@ -24,8 +24,12 @@ router.register(prefix = 'episode', viewset = views.EpisodeViewSet)
 router.register(prefix = 'award', viewset = views.AwardViewSet)
 router.register(prefix = 'company', viewset = views.CompanyViewSet)
 router.register(prefix = 'stat', viewset = views.StatViewSet)
-router.register(prefix = 'person', viewset = views.PersonViewSet)
+router.register(prefix = 'statSeries', viewset = views.StatSeriesViewSet)
+router.register(prefix = 'statEpisode', viewset = views.StatEpisodeViewSet)
+# router.register(prefix = 'person', viewset = views.PersonViewSet)
 router.register(prefix = 'director', viewset = views.DirectorViewSet)
+router.register(prefix = 'creator', viewset = views.CreatorViewSet)
+router.register(prefix = 'actor', viewset = views.ActorViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
