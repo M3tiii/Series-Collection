@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SeriesService } from '../services/series.service';
 import { Element } from '../services/elements';
 
@@ -10,6 +10,7 @@ import { Element } from '../services/elements';
   inputs: ['elements'],
 })
 export class ListComponent implements OnInit {
+  @Output() listClick = new EventEmitter();
   collection: any[];
   elements: Element[];
 
@@ -19,6 +20,10 @@ export class ListComponent implements OnInit {
     this.service.get()
       .then(collection => this.collection = collection)
       .catch(error => console.log(error))
+  }
+
+  onClickElement(element) {
+    this.listClick.emit(element);
   }
 
   ngOnInit() {

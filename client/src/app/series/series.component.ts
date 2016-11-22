@@ -20,6 +20,10 @@ export class SeriesComponent implements OnInit {
     ])
   }
 
+  listClick(element) {
+    console.log(element);
+  }
+
   ngOnInit() {
   }
 

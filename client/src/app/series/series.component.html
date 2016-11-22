@@ -1,4 +1,4 @@
 <p>
   SERIES
 </p>
-<app-list [elements]="elements"></app-list>
+<app-list (listClick)="listClick($event)" [elements]="elements"></app-list>

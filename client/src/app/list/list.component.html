@@ -6,7 +6,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of collection; let i = index">
+    <tr *ngFor="let value of collection; let i = index" (click)="onClickElement(value)">
       <th scope="row">{{i}}</th>
       <th *ngFor="let element of elements">{{value[element.value]}}</th>
     </tr>
