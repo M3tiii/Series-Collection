@@ -1,21 +1,20 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SeriesService } from '../services/series.service';
 import { Element } from '../services/elements';
 
 @Component({
   selector: 'app-list',
   templateUrl: 'list.component.html',
   styleUrls: ['list.component.css'],
-  providers: [SeriesService],
-  inputs: ['elements']
+  inputs: ['elements', 'service', 'nested']
 })
 export class ListComponent implements OnInit {
   @Output() listClick = new EventEmitter();
   collection: any[];
+  service: any;
   elements: Element[];
   sortableElement: string = '';
-
-  constructor(private service: SeriesService) { }
+  nested: any;
+  constructor() { }
 
   fetch() {
     this.service.get()
@@ -23,16 +22,22 @@ export class ListComponent implements OnInit {
       .catch(error => console.log(error))
   }
 
-  onClickElement(element) {
+  onClickElement(ev, element) {
+    this.collection.forEach(el => {
+      el.clicked = false;
+    })
+    element.clicked = true;
     this.listClick.emit(element);
   }
 
   onClickHeader(element) {
-    if ((this.sortableElement == element) && !(element.substr(0, 1) == '-')) {
-      this.sortableElement = '-' + element;
-    } else {
-      this.sortableElement = element;
-    }
+    let header = element.value;
+    if (element.isSortable)
+      if ((this.sortableElement == header) && !(header.substr(0, 1) == '-')) {
+        this.sortableElement = '-' + header;
+      } else {
+        this.sortableElement = header;
+      }
   }
 
   ngOnInit() {

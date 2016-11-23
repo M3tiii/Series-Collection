@@ -1,16 +1,17 @@
-<!-- <input type="text" [(ngModel)]="query" placeholder="... filter"> -->
-<!-- <div (click)="resetQuery()"> <span class="icon-cross"></span> </div> -->
-<table class="table">
-  <thead class="thead-inverse">
+<table class="table table-hover">
+  <thead class="thead-default">
     <tr>
       <th>#</th>
-      <th *ngFor="let element of elements" (click)="onClickHeader(element.value)">{{element.header | uppercase}}</th>
+      <th *ngFor="let element of elements" (click)="onClickHeader(element)">{{element.header | uppercase}}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of collection | orderBy : [sortableElement]; let i = index" (click)="onClickElement(value)">
-      <th scope="row">{{i}}</th>
-      <th *ngFor="let element of elements">{{value[element.value]}}</th>
+    <tr *ngFor="let value of collection | orderBy : [sortableElement]; let i = index" (click)="onClickElement($event, value)">
+      <td scope="row">{{i}}</td>
+      <td *ngFor="let element of elements">{{value[element.value]}}</td>
+      <td>
+        <dcl-wrapper *ngIf="nested && value.clicked" [type]="nested"></dcl-wrapper>
+      </td>
     </tr>
   </tbody>
 </table>
