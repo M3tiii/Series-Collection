@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BaseService {
+  clicked: boolean = false;
 
   constructor(private http: Http, private apiURL) { }
 
