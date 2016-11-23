@@ -8,12 +8,14 @@ import { ListComponent } from './list/list.component';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { SeriesComponent } from './series/series.component';
+import { OrderBy } from './pipes/orderBy.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
-    SeriesComponent
+    SeriesComponent,
+    OrderBy,
   ],
   imports: [
     BrowserModule,

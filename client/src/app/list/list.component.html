@@ -1,12 +1,14 @@
+<!-- <input type="text" [(ngModel)]="query" placeholder="... filter"> -->
+<!-- <div (click)="resetQuery()"> <span class="icon-cross"></span> </div> -->
 <table class="table">
   <thead class="thead-inverse">
     <tr>
       <th>#</th>
-      <th *ngFor="let element of elements">{{element.header}}</th>
+      <th *ngFor="let element of elements" (click)="onClickHeader(element.value)">{{element.header | uppercase}}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of collection; let i = index" (click)="onClickElement(value)">
+    <tr *ngFor="let value of collection | orderBy : [sortableElement]; let i = index" (click)="onClickElement(value)">
       <th scope="row">{{i}}</th>
       <th *ngFor="let element of elements">{{value[element.value]}}</th>
     </tr>

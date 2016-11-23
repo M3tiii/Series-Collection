@@ -7,12 +7,13 @@ import { Element } from '../services/elements';
   templateUrl: 'list.component.html',
   styleUrls: ['list.component.css'],
   providers: [SeriesService],
-  inputs: ['elements'],
+  inputs: ['elements']
 })
 export class ListComponent implements OnInit {
   @Output() listClick = new EventEmitter();
   collection: any[];
   elements: Element[];
+  sortableElement: string = '';
 
   constructor(private service: SeriesService) { }
 
@@ -24,6 +25,14 @@ export class ListComponent implements OnInit {
 
   onClickElement(element) {
     this.listClick.emit(element);
+  }
+
+  onClickHeader(element) {
+    if ((this.sortableElement == element) && !(element.substr(0, 1) == '-')) {
+      this.sortableElement = '-' + element;
+    } else {
+      this.sortableElement = element;
+    }
   }
 
   ngOnInit() {
