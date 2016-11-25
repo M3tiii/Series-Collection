@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Element, setupElements } from '../services/elements';
 import { SeriesService } from '../services/series.service';
 import { SeasonComponent } from '../season/season.component';
