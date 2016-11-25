@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
   service: any;
   elements: Element[];
   sortableElement: string = '';
+  sortableType: string = '+';
   nested: any;
   constructor() { }
 
@@ -22,22 +23,24 @@ export class ListComponent implements OnInit {
       .catch(error => console.log(error))
   }
 
-  onClickElement(ev, element) {
-    this.collection.forEach(el => {
-      el.clicked = false;
-    })
-    element.clicked = true;
+  onClickElement(evenet, element) {
+    event.stopPropagation();
+    element.clicked = !element.clicked;
     this.listClick.emit(element);
   }
 
-  onClickHeader(element) {
+  onClickHeader(event, element) {
+    event.stopPropagation();
     let header = element.value;
-    if (element.isSortable)
-      if ((this.sortableElement == header) && !(header.substr(0, 1) == '-')) {
-        this.sortableElement = '-' + header;
+    if (element.isSortable) {
+      if ((this.sortableElement == header) && (this.sortableType != '-')) {
+        this.sortableElement = header;
+        this.sortableType = '-';
       } else {
         this.sortableElement = header;
+        this.sortableType = '+';
       }
+    }
   }
 
   ngOnInit() {
