@@ -1,14 +1,28 @@
-<table class="table">
+<table class="table table-hover">
   <thead class="thead-inverse">
     <tr>
       <th>#</th>
-      <th *ngFor="let element of elements">{{element.header}}</th>
+      <th *ngFor="let element of elements" (click)="onClickHeader($event, element)">
+        {{element.header | uppercase}}
+        <span *ngIf="element.value == sortableElement" [ngSwitch]="sortableType">
+          <div *ngSwitchCase="'-'" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></div>
+          <div *ngSwitchCase="'+'" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></div>
+        </span>
+        <span *ngIf="element.value != sortableElement && element.isSortable" class="glyphicon glyphicon-menu-down"></span>
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of collection; let i = index" (click)="onClickElement(value)">
-      <th scope="row">{{i}}</th>
-      <th *ngFor="let element of elements">{{value[element.value]}}</th>
-    </tr>
+    <ng-container *ngFor="let value of collection | orderBy : [sortableType]+[sortableElement]; let i = index">
+      <tr (click)="onClickElement($event, value)">
+        <td scope="row">{{i}}</td>
+        <td *ngFor="let element of elements">{{value[element.value]}}</td>
+      </tr>
+      <tr class="nested-row" *ngIf="nested && value.clicked">
+        <td colspan="5">
+          <dcl-wrapper [type]="nested"></dcl-wrapper>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

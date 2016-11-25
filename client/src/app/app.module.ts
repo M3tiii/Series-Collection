@@ -8,13 +8,23 @@ import { ListComponent } from './list/list.component';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { SeriesComponent } from './series/series.component';
+import { OrderBy } from './pipes/orderBy.pipe';
+import { SeasonComponent } from './season/season.component';
+
+import { DclWrapper } from './dcl-wrapper/dcl-wrapper.component';
+import { EpisodeComponent } from './episode/episode.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
-    SeriesComponent
+    DclWrapper,
+    SeasonComponent,
+    SeriesComponent,
+    OrderBy,
+    EpisodeComponent,
   ],
+  entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
     BrowserModule,
     FormsModule,
