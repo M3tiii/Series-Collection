@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Element, setupElements } from '../services/elements';
 import { SeasonService } from '../services/season.service';
+import { EpisodeComponent } from '../episode/episode.component';
 
 @Component({
   selector: 'app-season',
@@ -10,6 +11,7 @@ import { SeasonService } from '../services/season.service';
 })
 export class SeasonComponent implements OnInit {
   elements: Element[];
+  nested = EpisodeComponent;
 
   constructor(private service: SeasonService) {
     this.elements = [];
@@ -22,7 +24,7 @@ export class SeasonComponent implements OnInit {
   }
 
   listClick(element) {
-    console.log(element);
+    // console.log(element);
   }
 
   ngOnInit() { }

@@ -12,6 +12,7 @@ import { OrderBy } from './pipes/orderBy.pipe';
 import { SeasonComponent } from './season/season.component';
 
 import { DclWrapper } from './dcl-wrapper/dcl-wrapper.component';
+import { EpisodeComponent } from './episode/episode.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,9 @@ import { DclWrapper } from './dcl-wrapper/dcl-wrapper.component';
     SeasonComponent,
     SeriesComponent,
     OrderBy,
+    EpisodeComponent,
   ],
-  entryComponents: [SeasonComponent],
+  entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
     BrowserModule,
     FormsModule,

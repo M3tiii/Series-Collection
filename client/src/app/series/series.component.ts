@@ -10,10 +10,8 @@ import { SeasonComponent } from '../season/season.component';
   providers: [SeriesService],
 })
 export class SeriesComponent implements OnInit {
-  shouldShow: boolean;
   elements: Element[];
   nested = SeasonComponent;
-
 
   constructor(private service: SeriesService) {
     this.elements = [];
@@ -27,10 +25,8 @@ export class SeriesComponent implements OnInit {
   }
 
   listClick(element) {
-    console.log(element);
+    // console.log(element);
   }
-
-  toggle() { this.shouldShow = !this.shouldShow; }
 
   ngOnInit() { }
 
