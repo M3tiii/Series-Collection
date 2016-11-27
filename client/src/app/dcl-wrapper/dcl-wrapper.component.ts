@@ -5,11 +5,13 @@ import {FormsModule} from '@angular/forms'
 // Helper component to add dynamic components
 @Component({
   selector: 'dcl-wrapper',
-  template: `<div #target></div>`
+  template: `<div #target></div>`,
+  inputs: ['level']
 })
 export class DclWrapper {
   @ViewChild('target', { read: ViewContainerRef }) target: ViewContainerRef;
   @Input() type: Type<Component>;
+  level: number;
   cmpRef: ComponentRef<Component>;
   private isViewInitialized: boolean = false;
 
@@ -28,6 +30,9 @@ export class DclWrapper {
     let factory = this.componentFactoryResolver.resolveComponentFactory(this.type);
     this.cmpRef = this.target.createComponent(factory)
     // to access the created instance use
+
+    this.cmpRef.instance.level = this.level + 1;
+
     // this.compRef.instance.someProperty = 'someValue';
     // this.compRef.instance.someOutput.subscribe(val => doSomething());
   }

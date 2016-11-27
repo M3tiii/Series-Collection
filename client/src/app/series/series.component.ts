@@ -12,6 +12,7 @@ import { SeasonComponent } from '../season/season.component';
 export class SeriesComponent implements OnInit {
   elements: Element[];
   nested = SeasonComponent;
+  level: number = 0;
 
   constructor(private service: SeriesService) {
     this.elements = [];
