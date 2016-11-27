@@ -5,7 +5,7 @@ import { Element } from '../services/elements';
   selector: 'app-list',
   templateUrl: 'list.component.html',
   styleUrls: ['list.component.css'],
-  inputs: ['elements', 'service', 'nested']
+  inputs: ['elements', 'service', 'nested', 'nestedLevel']
 })
 export class ListComponent implements OnInit {
   @Output() listClick = new EventEmitter();
@@ -15,6 +15,10 @@ export class ListComponent implements OnInit {
   sortableElement: string = '';
   sortableType: string = '+';
   nested: any;
+  nestedLevel: number;
+  indexClass: string;
+  colors: string[] = ['#333', '#555', '#777', '#eee'];
+
   constructor() { }
 
   fetch() {
@@ -43,7 +47,27 @@ export class ListComponent implements OnInit {
     }
   }
 
+  onRemove(event, element) {
+    event.stopPropagation();
+    let index = this.collection.indexOf(element);
+    this.collection.splice(index, 1);
+    // #TODO sent post to database
+  }
+
+  onEdit(event, element) {
+    event.stopPropagation();
+  }
+
+  getThemeColor(level = this.nestedLevel): string {
+    return this.colors[level];
+  }
+
+  getThemeWidth(): string {
+    return this.nestedLevel * 20 + 40 + 'px';
+  }
+
   ngOnInit() {
+    this.indexClass = 'col-md-' + this.nestedLevel;
     this.fetch();
   }
 

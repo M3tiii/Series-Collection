@@ -1,7 +1,8 @@
 <table class="table table-hover">
-  <thead class="thead-inverse">
-    <tr>
-      <th>#</th>
+  <thead class="thead">
+    <tr [style.background]="getThemeColor()" class="text-white">
+      <th [style.background]="getThemeColor(0)" class="col-md-1"></th>
+      <!-- [style.width]="getThemeWidth()" -->
       <th *ngFor="let element of elements" (click)="onClickHeader($event, element)">
         {{element.header | uppercase}}
         <span *ngIf="element.value == sortableElement" [ngSwitch]="sortableType">
@@ -10,17 +11,25 @@
         </span>
         <span *ngIf="element.value != sortableElement && element.isSortable" class="glyphicon glyphicon-menu-down"></span>
       </th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let value of collection | orderBy : [sortableType]+[sortableElement]; let i = index">
       <tr (click)="onClickElement($event, value)">
-        <td scope="row">{{i}}</td>
+        <td class="text-white" [style.background]="getThemeColor(0)" scope="row">
+          <p *ngIf="nestedLevel==0">{{i}}</p>
+        </td>
         <td *ngFor="let element of elements">{{value[element.value]}}</td>
+        <td>
+          <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onRemove($event, value)"></span>
+          <span class="glyphicon glyphicon-edit" aria-hidden="true" (click)="onEdit($event, value)"></span>
+        </td>
+        <!-- [class.test]="value.clicked" -->
       </tr>
-      <tr class="nested-row" *ngIf="nested && value.clicked">
-        <td colspan="5">
-          <dcl-wrapper [type]="nested"></dcl-wrapper>
+      <tr *ngIf="nested && value.clicked">
+        <td class="nested-table" colspan="6">
+          <dcl-wrapper [type]="nested" [level]="nestedLevel"></dcl-wrapper>
         </td>
       </tr>
     </ng-container>
