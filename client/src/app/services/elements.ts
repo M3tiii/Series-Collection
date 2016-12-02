@@ -8,7 +8,7 @@ export interface Element {
 
 export function setupElements(elements, config) {
   config.forEach((el) => {
-    let newElement = { header: "", value: false, isSortable: false };
+    let newElement = { header: "", value: false, isSortable: false, type: "text", for: "", required: true };
     if (el.header) {
       newElement.header = el.header;
     }
