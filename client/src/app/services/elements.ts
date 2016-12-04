@@ -1,14 +1,13 @@
 export interface Element {
-  [index: number]: {
-    header: string,
-    value: any,
-    isSortable: boolean,
-  }
+  header: string,
+  value: any,
+  isSortable: boolean,
+  required: boolean
 }
 
 export function setupElements(elements, config) {
   config.forEach((el) => {
-    let newElement = { header: "", value: false, isSortable: false, type: "text", for: "", required: true };
+    let newElement = { header: "", value: false, isSortable: false, type: "text", required: true };
     if (el.header) {
       newElement.header = el.header;
     }
