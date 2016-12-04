@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TabsModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -30,10 +29,11 @@ import { OrderBy } from './pipes/orderBy.pipe';
   entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpModule,
     ModalModule,
-    TabsModule
+    TabsModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
