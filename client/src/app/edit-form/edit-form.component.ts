@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Element } from '../services/elements';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -13,9 +14,12 @@ import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
   inputs: ['elements', 'service']
 })
 export class EditFormComponent implements OnInit {
+  myForm: FormGroup;
   elements: Element[];
   collection: any[];
   service: any;
+  fields: any;
+  isReady: boolean = false;
 
   @ViewChild('childModal') public childModal: ModalDirective;
 
@@ -23,23 +27,31 @@ export class EditFormComponent implements OnInit {
     componentsHelper.setRootViewContainerRef(viewContainerRef);
   }
 
-  public showChildModal(): void {
+  public showChildModal(value: any): void {
+    this.fields = value;
+    this.myForm = this.toFormGroup();
+    this.isReady = true;
     this.childModal.show();
-    console.log(this.childModal);
   }
 
   public hideChildModal(): void {
     this.childModal.hide();
+    this.isReady = false;
   }
 
-  private fetch(): void {
-    this.service.get()
-      .then(collection => this.collection = collection)
-      .catch(error => console.log(error))
+  private onSubmit(value: any): void {
+    console.log(value); //#todo fix post
+    this.service.post(value);
   }
 
-  ngOnInit() {
-    this.fetch();
+  private toFormGroup(): FormGroup {
+    let group: any = {};
+    this.elements.forEach(el => {
+      group[el.value] = el.required ? new FormControl(this.fields[el.value] || '', Validators.required)
+        : new FormControl(this.fields[el.value] || '');
+    })
+    return new FormGroup(group);
   }
 
+  ngOnInit() { }
 }

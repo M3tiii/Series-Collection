@@ -1,4 +1,3 @@
-<button type="button" class="btn btn-primary" (click)="showChildModal()">Open modal</button>
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -9,13 +8,14 @@
         <h4 class="modal-title">Edit</h4>
       </div>
       <div class="modal-body">
-        <div class="container">
-          <form>
+        <div *ngIf="isReady" class="container">
+          <form [formGroup]="myForm" (ngsubmit)="onSubmit(myForm.value)" #test="ngForm">
             <div class="form-group" *ngFor="let element of elements">
-              <label for="element.for">{{element.header}}</label>
-              <input type="element.type" class="form-control" id="element.value" [attr.required]="element.required">
+              <label [attr.for]="element.value">{{element.header}}</label>
+              <input [type]="element.type" [id]="element.value" [formControlName]="element.value" class="form-control">
+              <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" [disabled]="!myForm.valid" (click)="onSubmit(myForm.value)" class="btn btn-default">Submit</button>
           </form>
         </div>
       </div>

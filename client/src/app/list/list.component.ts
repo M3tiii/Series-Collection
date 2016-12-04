@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Element } from '../services/elements';
+import { EditFormComponent } from '../edit-form/edit-form.component';
 
 @Component({
   selector: 'app-list',
@@ -7,7 +8,9 @@ import { Element } from '../services/elements';
   styleUrls: ['list.component.css'],
   inputs: ['elements', 'service', 'nested', 'nestedLevel']
 })
+
 export class ListComponent implements OnInit {
+  @ViewChild(EditFormComponent) editFormComponent: EditFormComponent
   @Output() listClick = new EventEmitter();
   collection: any[];
   service: any;
@@ -56,6 +59,7 @@ export class ListComponent implements OnInit {
 
   onEdit(event, element) {
     event.stopPropagation();
+    this.editFormComponent.showChildModal(element);
   }
 
   getThemeColor(level = this.nestedLevel): string {
