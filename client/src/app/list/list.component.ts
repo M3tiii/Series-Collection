@@ -10,7 +10,8 @@ import { EditFormComponent } from '../edit-form/edit-form.component';
 })
 
 export class ListComponent implements OnInit {
-  @ViewChild(EditFormComponent) editFormComponent: EditFormComponent
+  @ViewChild(EditFormComponent) editFormComponent: EditFormComponent;
+  @ViewChild('searchInput') searchInputElement;
   @Output() listClick = new EventEmitter();
   collection: any[];
   service: any;
@@ -21,22 +22,33 @@ export class ListComponent implements OnInit {
   nestedLevel: number;
   indexClass: string;
   colors: string[] = ['#333', '#555', '#777', '#eee'];
+  searchText: string = '';
+  searchIsOpen: boolean = false;
 
   constructor() { }
 
-  fetch() {
+  private fetch(): void {
     this.service.get()
-      .then(collection => this.collection = collection)
+      .then(collection => {
+        this.collection = collection
+        this.setup();
+      })
       .catch(error => console.log(error))
   }
 
-  onClickElement(evenet, element) {
+  private setup(): void {
+    this.collection.forEach((el) => {
+      el.options = { clicked: false };
+    })
+  }
+
+  private onClickElement(evenet, element): void {
     event.stopPropagation();
-    element.clicked = !element.clicked;
+    element.options.clicked = !element.options.clicked;
     this.listClick.emit(element);
   }
 
-  onClickHeader(event, element) {
+  private onClickHeader(event, element): void {
     event.stopPropagation();
     let header = element.value;
     if (element.isSortable) {
@@ -50,23 +62,30 @@ export class ListComponent implements OnInit {
     }
   }
 
-  onRemove(event, element) {
+  private onSearchHover(): void {
+    this.searchIsOpen = true;
+    setTimeout(() => {
+      this.searchInputElement.nativeElement.focus();
+    }, 400);
+  }
+
+  private onRemove(event, element): void {
     event.stopPropagation();
     let index = this.collection.indexOf(element);
     this.collection.splice(index, 1);
     // #TODO sent post to database
   }
 
-  onEdit(event, element) {
+  private onEdit(event, element): void {
     event.stopPropagation();
     this.editFormComponent.showChildModal(element);
   }
 
-  getThemeColor(level = this.nestedLevel): string {
+  private getThemeColor(level = this.nestedLevel): string {
     return this.colors[level];
   }
 
-  getThemeWidth(): string {
+  private getThemeWidth(): string {
     return this.nestedLevel * 20 + 40 + 'px';
   }
 

@@ -1,9 +1,20 @@
 <app-edit-form [elements]="elements" [service]="service"></app-edit-form>
-
 <table class="table table-hover">
   <thead class="thead">
     <tr [style.background]="getThemeColor()" class="text-white">
-      <th [style.background]="getThemeColor(0)" class="col-md-1"></th>
+      <th [style.background]="getThemeColor(0)" class="col-md-1">
+        <div dropdown *ngIf="nestedLevel==0" [(isOpen)]="searchIsOpen" on-mouseover="onSearchHover()">
+          <span dropdownToggle class="glyphicon glyphicon-search"></span>
+          <div class="search-menu" dropdownMenu aria-labelledby="search-dropdown">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for..." [(ngModel)]="searchText" #searchInput>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </th>
       <!-- [style.width]="getThemeWidth()" -->
       <th *ngFor="let element of elements" (click)="onClickHeader($event, element)">
         {{element.header | uppercase}}
@@ -17,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let value of collection | orderBy : [sortableType]+[sortableElement]; let i = index">
+    <ng-container *ngFor="let value of collection | filter : [searchText] | orderBy : [sortableType]+[sortableElement]; let i = index">
       <tr (click)="onClickElement($event, value)">
         <td class="text-white" [style.background]="getThemeColor(0)" scope="row">
           <p *ngIf="nestedLevel==0">{{i}}</p>
@@ -28,7 +39,7 @@
           <span class="glyphicon glyphicon-edit" aria-hidden="true" (click)="onEdit($event, value)"></span>
         </td>
       </tr>
-      <tr *ngIf="nested && value.clicked">
+      <tr *ngIf="nested && value.options.clicked">
         <td class="nested-table" colspan="6">
           <dcl-wrapper [type]="nested" [level]="nestedLevel"></dcl-wrapper>
         </td>

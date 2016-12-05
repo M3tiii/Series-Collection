@@ -2,7 +2,7 @@
   color: transparent;
 }
 
-.nested-table {
+table .nested-table {
   padding: 0;
 }
 
@@ -13,4 +13,10 @@ table {
 .table th, .table td {
   border-top: none;
   border-color: #333;
+}
+
+table thead .search-menu {
+  opacity: 0.8;
+  /* Good browsers */
+  padding: 0;
 }
