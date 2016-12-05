@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { TabsModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
-
+import { TabsModule, ModalModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
 import { DclWrapper } from './dcl-wrapper/dcl-wrapper.component';
@@ -13,6 +12,7 @@ import { EpisodeComponent } from './episode/episode.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { OrderBy } from './pipes/orderBy.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -25,15 +25,18 @@ import { OrderBy } from './pipes/orderBy.pipe';
     EpisodeComponent,
     NavbarComponent,
     EditFormComponent,
+    FilterPipe,
   ],
   entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
     BrowserModule,
     HttpModule,
-    ModalModule,
-    TabsModule,
     FormsModule,
     ReactiveFormsModule,
+    //BS4
+    ModalModule,
+    TabsModule,
+    DropdownModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
