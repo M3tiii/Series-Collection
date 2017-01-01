@@ -17,15 +17,10 @@ export class BaseService {
 
   post(value: any) {
     this.http.post(this.apiURL, value).subscribe(
-      (res: any) => {
-        // We’ll subscribe to the request and capture the response
+      (res: any) => { //#todo fix post
         let data = res.json();
         console.log(res);
-        // If we get an id_token, we’ll know the request is successful so we’ll store the token in localStorage. We won’t handle the error use case for this tutorial.
         if (data.id_token) {
-          // localStorage.setItem('jwt', data.id_token);
-          // Finally, we’ll call our getUserInfo function which will get the user details from Auth0
-          // this.getUserInfo(data);
         }
       }
     )
