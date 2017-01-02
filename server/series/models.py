@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 class Series(models.Model):
-    title = models.CharField(max_length=100, default="")
+    title = models.CharField(db_index=True, max_length=100, default="")
     releaseDate = models.DateField(default=timezone.now) #DateTimeField
     website = models.URLField(max_length=500, default="")
     language = models.CharField(max_length=100, default="")
