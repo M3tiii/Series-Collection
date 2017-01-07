@@ -14,26 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from rest_framework import routers
+from rest_framework_nested import routers
 from series import views
 
 router = routers.DefaultRouter()
-router.register(prefix = 'series', viewset = views.SeriesViewSet)
-router.register(prefix = 'season', viewset = views.SeasonViewSet)
-router.register(prefix = 'episode', viewset = views.EpisodeViewSet)
+
+router.register(r'series', views.SeriesViewSet, base_name='series')
+series_router = routers.NestedSimpleRouter(router, r'series', lookup='series')
+series_router.register(r'seasons', views.SeasonViewSet, base_name='seasons')
+
+seasons_router = routers.NestedSimpleRouter(series_router, r'seasons', lookup='season')##
+seasons_router.register(r'episodes', views.EpisodeViewSet, base_name='episodes')##
+
 router.register(prefix = 'award', viewset = views.AwardViewSet)
 router.register(prefix = 'company', viewset = views.CompanyViewSet)
 router.register(prefix = 'stat', viewset = views.StatViewSet)
 router.register(prefix = 'statSeries', viewset = views.StatSeriesViewSet)
 router.register(prefix = 'statEpisode', viewset = views.StatEpisodeViewSet)
-# router.register(prefix = 'person', viewset = views.PersonViewSet)
 router.register(prefix = 'director', viewset = views.DirectorViewSet)
 router.register(prefix = 'creator', viewset = views.CreatorViewSet)
 router.register(prefix = 'actor', viewset = views.ActorViewSet)
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
-urlpatterns = router.urls#[
-#     url(r'^', include(router.urls)),
-#     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-# ]
+urlpatterns = [
+    url(r'^', include(router.urls)),
+    url(r'^', include(series_router.urls)),
+    url(r'^', include(seasons_router.urls)),
+]
