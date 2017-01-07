@@ -8,6 +8,7 @@ Create a virtualenv:
 Install requirements:
 - `pip install django`  
 - `pip install djangorestframework`  
+- `pip install drf-nested-routers`
 
 Run server:
 - `cd server`  
