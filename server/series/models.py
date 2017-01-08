@@ -21,6 +21,15 @@ class Episode(models.Model):
     title = models.CharField(max_length=100, default="")
     releaseDate = models.DateField(default=date.today) #DateTimeField
     runtime = models.IntegerField(default=0)
+    def delete(self, *args, **kwargs):
+        self.season.episodes -= 1
+        self.season.save()
+        return super(Episode, self).delete(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.season.episodes += 1
+            self.season.save()
+        return super(Episode, self).save(*args, **kwargs)
 
 class Award(models.Model): #TODO
     series = models.ForeignKey(Series)
