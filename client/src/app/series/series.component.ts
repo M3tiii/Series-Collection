@@ -12,11 +12,12 @@ import { SeasonComponent } from '../season/season.component';
 export class SeriesComponent implements OnInit {
   elements: Element[];
   nested = SeasonComponent;
+  level: number = 0;
 
   constructor(private service: SeriesService) {
     this.elements = [];
 
-    setupElements(this.elements, [
+    setupElements(this.elements, [ //#todo add type && required
       { header: "Title", value: "title", isSortable: true },
       { header: "Website", value: "website", isSortable: true },
       { header: "Language", value: "language", isSortable: true },

@@ -1,3 +1,22 @@
 .glyphicon-hide {
   color: transparent;
 }
+
+table .nested-table {
+  padding: 0;
+}
+
+table {
+  margin-bottom: 0;
+}
+
+.table th, .table td {
+  border-top: none;
+  border-color: #333;
+}
+
+table thead .search-menu {
+  opacity: 0.8;
+  /* Good browsers */
+  padding: 0;
+}

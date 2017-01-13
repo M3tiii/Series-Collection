@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { TabsModule, ModalModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
-
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { SeriesComponent } from './series/series.component';
-import { OrderBy } from './pipes/orderBy.pipe';
-import { SeasonComponent } from './season/season.component';
-
 import { DclWrapper } from './dcl-wrapper/dcl-wrapper.component';
+import { SeriesComponent } from './series/series.component';
+import { SeasonComponent } from './season/season.component';
 import { EpisodeComponent } from './episode/episode.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
+import { OrderBy } from './pipes/orderBy.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -23,13 +23,20 @@ import { EpisodeComponent } from './episode/episode.component';
     SeriesComponent,
     OrderBy,
     EpisodeComponent,
+    NavbarComponent,
+    EditFormComponent,
+    FilterPipe,
   ],
   entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpModule,
-    AlertModule
+    FormsModule,
+    ReactiveFormsModule,
+    //BS4
+    ModalModule,
+    TabsModule,
+    DropdownModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

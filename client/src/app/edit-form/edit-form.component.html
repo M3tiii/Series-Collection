@@ -1,0 +1,24 @@
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Edit</h4>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="isReady" class="container">
+          <form [formGroup]="myForm" (ngsubmit)="onSubmit(myForm.value)" #test="ngForm">
+            <div class="form-group" *ngFor="let element of elements">
+              <label [attr.for]="element.value">{{element.header}}</label>
+              <input [type]="element.type" [id]="element.value" [formControlName]="element.value" class="form-control">
+              <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small>
+            </div>
+            <button type="submit" [disabled]="!myForm.valid" (click)="onSubmit(myForm.value)" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

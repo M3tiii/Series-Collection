@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Element, setupElements } from '../services/elements';
 import { SeasonService } from '../services/season.service';
 import { EpisodeComponent } from '../episode/episode.component';
@@ -12,12 +12,12 @@ import { EpisodeComponent } from '../episode/episode.component';
 export class SeasonComponent implements OnInit {
   elements: Element[];
   nested = EpisodeComponent;
+  level: number;
 
   constructor(private service: SeasonService) {
     this.elements = [];
-
     setupElements(this.elements, [
-      { header: "series", value: "series", isSortable: true },
+      // { header: "series", value: "series", isSortable: true },
       { header: "number", value: "number", isSortable: true },
       { header: "episodes", value: "episodes", isSortable: true },
     ])
