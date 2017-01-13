@@ -1,60 +1,87 @@
 from rest_framework import viewsets
-from series.serializers import SeriesSerializer, SeasonSerializer, EpisodeSerializer, AwardSerializer, CompanySerializer, StatSerializer, PersonSerializer, DirectorSerializer
-from series.models import Series, Season, Episode, Award, Company, Stat, Person, Director
+from series.serializers import SeriesSerializer, SeasonSerializer, EpisodeSerializer, AwardSerializer, CompanySerializer, StatSerializer, PersonSerializer, DirectorSerializer, CreatorSerializer, ActorSerializer, StatSeriesSerializer, StatEpisodeSerializer
+from series.models import Series, Season, Episode, Award, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
+"""
+API endpoint that allows users to be viewed or edited.
+"""
 
 class SeriesViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    def list(self, request,):
+        queryset = Series.objects.filter()
+        serializer = SeriesSerializer(queryset, many=True)
+        return Response(serializer.data)
+    def retrieve(self, request, pk=None):
+        queryset = Series.objects.filter()
+        series = get_object_or_404(queryset, pk=pk)
+        serializer = SeriesSerializer(series)
+        return Response(serializer.data)
 
 class SeasonViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
+    def list(self, request, series_pk=None):
+        queryset = Season.objects.filter(series=series_pk)
+        serializer = SeasonSerializer(queryset, many=True)
+        return Response(serializer.data)
+    def retrieve(self, request, pk=None, series_pk=None):
+        queryset = Season.objects.filter(pk=pk, series=series_pk)
+        season = get_object_or_404(queryset, pk=pk)
+        serializer = SeasonSerializer(season)
+        return Response(serializer.data)
 
 class EpisodeViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Episode.objects.all()
     serializer_class = EpisodeSerializer
+    def list(self, request, series_pk=None, season_pk=None):
+        queryset = Episode.objects.filter(season__series=series_pk, season=season_pk)
+        serializer = EpisodeSerializer(queryset, many=True)
+        return Response(serializer.data)
+    def retrieve(self, request, pk=None, series_pk=None, season_pk=None):
+        queryset = Episode.objects.filter(pk=pk, season__series=series_pk, season=season_pk)
+        episode = get_object_or_404(queryset, pk=pk)
+        serializer = EpisodeSerializer(episode)
+        return Response(serializer.data)
 
 class AwardViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Award.objects.all()
     serializer_class = AwardSerializer
 
 class CompanyViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
 class StatViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
 
-class PersonViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Person.objects.all()
-    serializer_class = PersonSerializer
+class StatSeriesViewSet(viewsets.ModelViewSet):
+    queryset = StatSeries.objects.all()
+    serializer_class = StatSeriesSerializer
+
+class StatEpisodeViewSet(viewsets.ModelViewSet):
+    queryset = StatEpisode.objects.all()
+    serializer_class = StatEpisodeSerializer
+
+# class PersonViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = Person.objects.all()
+#     serializer_class = PersonSerializer
 
 class DirectorViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Director.objects.all()
     serializer_class = DirectorSerializer
+
+class CreatorViewSet(viewsets.ModelViewSet):
+    queryset = Creator.objects.all()
+    serializer_class = CreatorSerializer
+
+class ActorViewSet(viewsets.ModelViewSet):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
