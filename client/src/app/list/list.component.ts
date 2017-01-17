@@ -71,9 +71,13 @@ export class ListComponent implements OnInit {
 
   private onRemove(event, element): void {
     event.stopPropagation();
-    let index = this.collection.indexOf(element);
-    this.collection.splice(index, 1);
-    // #TODO sent post to database
+    console.log(event, element);
+    this.service.delete(element[this.service.id]).then(() => {
+      let index = this.collection.indexOf(element);
+      this.collection.splice(index, 1);
+    }).catch(() => {
+      console.log("FAILED");
+    });
   }
 
   private onEdit(event, element): void {
@@ -87,6 +91,11 @@ export class ListComponent implements OnInit {
 
   private getThemeWidth(): string {
     return this.nestedLevel * 20 + 40 + 'px';
+  }
+
+  private submitSuccess(): void {
+    this.fetch();
+    console.log("PO FETCHU");
   }
 
   ngOnInit() {

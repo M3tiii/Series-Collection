@@ -1,4 +1,4 @@
-<app-edit-form [elements]="elements" [service]="service"></app-edit-form>
+<app-edit-form (submitSuccess)="submitSuccess($event)" [elements]="elements" [service]="service"></app-edit-form>
 <table class="table table-hover">
   <thead class="thead">
     <tr [style.background]="getThemeColor()" class="text-white">
@@ -41,7 +41,7 @@
       </tr>
       <tr *ngIf="nested && value.options.clicked">
         <td class="nested-table" colspan="6">
-          <dcl-wrapper [type]="nested" [level]="nestedLevel"></dcl-wrapper>
+          <dcl-wrapper [type]="nested" [level]="nestedLevel" [parent]="value" [service]="service"></dcl-wrapper>
         </td>
       </tr>
     </ng-container>
