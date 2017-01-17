@@ -15,12 +15,15 @@ export class EpisodeComponent implements OnInit {
   constructor(private service: EpisodeService) {
     this.elements = [];
     setupElements(this.elements, [
-      // { header: "season", value: "season", isSortable: true },
-      { header: "number", value: "number", isSortable: true },
-      { header: "title", value: "title", isSortable: true },
+      { header: "ID", value: "id", isSortable: true },
+      { header: "Title", value: "title", isSortable: true },
       { header: "Release Date", value: "releaseDate", isSortable: true },
       { header: "Runtime", value: "runtime", isSortable: true },
     ])
+  }
+
+  getComponent() {
+    return this;
   }
 
   listClick(element) {

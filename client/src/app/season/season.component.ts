@@ -23,6 +23,10 @@ export class SeasonComponent implements OnInit {
     ])
   }
 
+  getComponent() {
+    return this;
+  }
+
   listClick(element) {
     // console.log(element);
   }
