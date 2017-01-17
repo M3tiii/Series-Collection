@@ -12,8 +12,9 @@
           <form [formGroup]="myForm" (ngsubmit)="onSubmit(myForm.value)" #test="ngForm">
             <div class="form-group" *ngFor="let element of elements">
               <label [attr.for]="element.value">{{element.header}}</label>
-              <input [type]="element.type" [id]="element.value" [formControlName]="element.value" class="form-control">
-              <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small>
+              <input [type]="element.type" [id]="element.value" [formControlName]="element.value" class="form-control form-control-danger">
+              <!-- <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small> -->
+              <small *ngIf="element.isError" class="text-danger">{{element.textError}}</small>
             </div>
             <button type="submit" [disabled]="!myForm.valid" (click)="onSubmit(myForm.value)" class="btn btn-default">Submit</button>
           </form>

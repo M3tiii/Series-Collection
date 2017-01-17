@@ -20,6 +20,8 @@ export class EditFormComponent implements OnInit {
   service: any;
   field: any;
   isReady: boolean = false;
+  callback: any;
+  id: string;
   @Output() submitSuccess = new EventEmitter();
   @ViewChild('childModal') public childModal: ModalDirective;
 
@@ -27,27 +29,68 @@ export class EditFormComponent implements OnInit {
     componentsHelper.setRootViewContainerRef(viewContainerRef);
   }
 
-  public showChildModal(value: any): void {
+  public showChildModal(value: any, callback: any): void {
+    console.log(this);
+    this.callback = callback;
     this.field = value;
     this.myForm = this.toFormGroup();
+    if (callback == this.put) {
+      this.id = this.service.id;
+      this.myForm.get(this.id).disable(true);
+    }
     this.isReady = true;
     this.childModal.show();
   }
 
   public hideChildModal(): void {
     this.childModal.hide();
+    this.clearError();
     this.isReady = false;
   }
 
-  private onSubmit(value: any): void {
-    let promise = this.service.put(this.field[this.service.id], value);
+  public post(value: any) {
+    let promise = this.service.post(value);
     promise.then(() => {
-      console.log("SUCCESS");
       this.hideChildModal();
       this.submitSuccess.emit();
-    }).catch(() => {
-      console.log("FAILED");
+    }).catch((status) => {
+      this.handleError(status);
     });
+  }
+
+  public put(value: any) {
+    value[this.id] = this.myForm.get(this.id).value;
+    console.log(value);
+    let promise = this.service.put(this.field[this.id], value);
+    promise.then(() => {
+      this.hideChildModal();
+      this.submitSuccess.emit();
+    }).catch((status) => {
+      this.handleError(status);
+    });
+  }
+
+  private handleError(status: any): void {
+    this.clearError();
+    const body = status.json() || '';
+    console.log(body);
+    for (let error in body) {
+      let element = this.elements.filter(x => x.value == error)[0];
+      element.isError = true;
+      element.textError = body[error];
+    };
+  }
+
+  private clearError(): void {
+    this.elements.forEach(el => el.isError = false);
+  }
+
+  private blockId(element: any): boolean {
+    return element.value === this.id;
+  }
+
+  private onSubmit(value: any): void {
+    this.callback(value)
   }
 
   private toFormGroup(): FormGroup {
