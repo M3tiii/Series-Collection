@@ -24,18 +24,19 @@ export class BaseService {
         if (data.id_token) {
         }
       }
-    ).catch(this.handleError);
+    );//.catch(this.handleError);
   }
-
-  post(value: any): any {
-    return this.http.put(this.fullURL, value).subscribe(
+  //todo otwieranie jednej listy zamyka inne
+  //todo hover click na actions
+  post(value: any): any { //todo return type
+    return this.http.post(this.fullURL, value).toPromise().then(
       (res: any) => {
         let data = res.json();
         console.log(res);
         if (data.id_token) {
         }
       }
-    )
+    );//.catch(this.handleError);
   }
 
   delete(elementId: string): any {

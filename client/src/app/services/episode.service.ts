@@ -6,6 +6,7 @@ import { BaseService } from './base.service';
 @Injectable()
 export class EpisodeService extends BaseService {
   id: String = 'id';
+  name: String = 'Episode';
 
   constructor(http: Http) {
     super(http, 'http://localhost:8000');
