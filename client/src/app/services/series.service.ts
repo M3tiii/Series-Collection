@@ -5,9 +5,10 @@ import { BaseService } from './base.service';
 
 @Injectable()
 export class SeriesService extends BaseService {
+  id: String = 'title';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/series');
+    super(http, 'http://localhost:8000/series/');
   }
 
 }

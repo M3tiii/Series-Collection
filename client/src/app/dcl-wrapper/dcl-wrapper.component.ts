@@ -6,12 +6,16 @@ import {FormsModule} from '@angular/forms'
 @Component({
   selector: 'dcl-wrapper',
   template: `<div #target></div>`,
-  inputs: ['level']
+  inputs: ['type', 'level', 'parent', 'service']
 })
 export class DclWrapper {
   @ViewChild('target', { read: ViewContainerRef }) target: ViewContainerRef;
-  @Input() type: Type<Component>;
+
+  type: Type<Component>;
   level: number;
+  parent: any;
+  service: any;
+
   cmpRef: ComponentRef<Component>;
   private isViewInitialized: boolean = false;
 
@@ -30,8 +34,11 @@ export class DclWrapper {
     let factory = this.componentFactoryResolver.resolveComponentFactory(this.type);
     this.cmpRef = this.target.createComponent(factory)
     // to access the created instance use
+    // console.log(this, this.parent, this.service);
 
-    this.cmpRef.instance.level = this.level + 1;
+    let component = this.cmpRef.instance.getComponent();
+    component.level = this.level + 1;
+    component.service.setUrl(this.service.fullURL + this.parent[this.service.id]);
 
     // this.compRef.instance.someProperty = 'someValue';
     // this.compRef.instance.someOutput.subscribe(val => doSomething());
