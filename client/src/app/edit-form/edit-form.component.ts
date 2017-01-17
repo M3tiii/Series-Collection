@@ -18,9 +18,9 @@ export class EditFormComponent implements OnInit {
   elements: Element[];
   collection: any[];
   service: any;
-  fields: any;
+  field: any;
   isReady: boolean = false;
-
+  @Output() submitSuccess = new EventEmitter();
   @ViewChild('childModal') public childModal: ModalDirective;
 
   constructor(componentsHelper: ComponentsHelper, viewContainerRef: ViewContainerRef) {
@@ -28,7 +28,7 @@ export class EditFormComponent implements OnInit {
   }
 
   public showChildModal(value: any): void {
-    this.fields = value;
+    this.field = value;
     this.myForm = this.toFormGroup();
     this.isReady = true;
     this.childModal.show();
@@ -40,15 +40,21 @@ export class EditFormComponent implements OnInit {
   }
 
   private onSubmit(value: any): void {
-    console.log(value); //#todo fix post
-    this.service.post(value);
+    let promise = this.service.put(this.field[this.service.id], value);
+    promise.then(() => {
+      console.log("SUCCESS");
+      this.hideChildModal();
+      this.submitSuccess.emit();
+    }).catch(() => {
+      console.log("FAILED");
+    });
   }
 
   private toFormGroup(): FormGroup {
     let group: any = {};
     this.elements.forEach(el => {
-      group[el.value] = el.required ? new FormControl(this.fields[el.value] || '', Validators.required)
-        : new FormControl(this.fields[el.value] || '');
+      group[el.value] = el.required ? new FormControl(this.field[el.value] || '', Validators.required)
+        : new FormControl(this.field[el.value] || '');
     })
     return new FormGroup(group);
   }
