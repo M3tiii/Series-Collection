@@ -2,12 +2,14 @@ export interface Element {
   header: string,
   value: any,
   isSortable: boolean,
-  required: boolean
+  required: boolean,
+  isError: boolean,
+  textError: string
 }
 
 export function setupElements(elements, config) {
   config.forEach((el) => {
-    let newElement = { header: "", value: false, isSortable: false, type: "text", required: true };
+    let newElement = { header: "", value: false, isSortable: false, type: "text", required: true, isError: false, textError: "" };
     if (el.header) {
       newElement.header = el.header;
     }
@@ -19,4 +21,12 @@ export function setupElements(elements, config) {
     }
     elements.push(newElement);
   })
+}
+
+export function getEmptyElement(config) {
+  let tmp = {};
+  config.forEach((el) => {
+    tmp[el.value] = "";
+  })
+  return tmp;
 }
