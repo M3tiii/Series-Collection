@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { OrderBy } from './pipes/orderBy.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     NavbarComponent,
     EditFormComponent,
     FilterPipe,
+    ModalComponent,
   ],
   entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
