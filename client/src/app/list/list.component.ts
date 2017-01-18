@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Element } from '../services/elements';
+import { Element, getEmptyElement } from '../services/elements';
 import { EditFormComponent } from '../edit-form/edit-form.component';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-list',
@@ -11,6 +12,7 @@ import { EditFormComponent } from '../edit-form/edit-form.component';
 
 export class ListComponent implements OnInit {
   @ViewChild(EditFormComponent) editFormComponent: EditFormComponent;
+  @ViewChild(ModalComponent) modalComponent: ModalComponent;
   @ViewChild('searchInput') searchInputElement;
   @Output() listClick = new EventEmitter();
   collection: any[];
@@ -71,18 +73,19 @@ export class ListComponent implements OnInit {
 
   private onRemove(event, element): void {
     event.stopPropagation();
-    console.log(event, element);
-    this.service.delete(element[this.service.id]).then(() => {
-      let index = this.collection.indexOf(element);
-      this.collection.splice(index, 1);
-    }).catch(() => {
-      console.log("FAILED");
-    });
+    this.modalComponent.showChildModal(element);
   }
 
   private onEdit(event, element): void {
     event.stopPropagation();
-    this.editFormComponent.showChildModal(element);
+    this.editFormComponent.showChildModal(element, this.editFormComponent.put);
+  }
+
+  private onAdd(event): void {
+    event.stopPropagation();
+    console.log(this);
+    console.log(getEmptyElement(this.elements));
+    this.editFormComponent.showChildModal(getEmptyElement(this.elements), this.editFormComponent.post);
   }
 
   private getThemeColor(level = this.nestedLevel): string {
@@ -95,7 +98,16 @@ export class ListComponent implements OnInit {
 
   private submitSuccess(): void {
     this.fetch();
-    console.log("PO FETCHU");
+  }
+
+  private submitRemove(element): void {
+    this.service.delete(element[this.service.id]).then(() => {
+      this.fetch();
+      // let index = this.collection.indexOf(element);
+      // this.collection.splice(index, 1);
+    }).catch(() => {
+      console.log("FAILED");
+    });
   }
 
   ngOnInit() {

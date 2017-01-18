@@ -1,4 +1,5 @@
 <app-edit-form (submitSuccess)="submitSuccess($event)" [elements]="elements" [service]="service"></app-edit-form>
+<app-modal (submitSuccess)="submitRemove($event)" [header]="'Are you sure?'" [content]="'DELETE'"></app-modal>
 <table class="table table-hover">
   <thead class="thead">
     <tr [style.background]="getThemeColor()" class="text-white">
@@ -24,7 +25,7 @@
         </span>
         <span *ngIf="element.value != sortableElement && element.isSortable" class="glyphicon glyphicon-menu-down"></span>
       </th>
-      <th>Actions</th>
+      <th>ACTIONS</th>
     </tr>
   </thead>
   <tbody>
@@ -45,5 +46,11 @@
         </td>
       </tr>
     </ng-container>
+    <tr class="row-add" (click)="onAdd($event)">
+      <td class="text-white" [style.background]="getThemeColor(0)"></td>
+      <td class="text-white" [style.background]="getThemeColor()" colspan="6">
+        Add {{service.name}}
+      </td>
+    </tr>
   </tbody>
 </table>
