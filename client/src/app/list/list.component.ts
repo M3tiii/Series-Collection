@@ -33,12 +33,12 @@ export class ListComponent implements OnInit {
     this.service.get()
       .then(collection => {
         this.collection = collection
-        this.setup();
+        this.closeAll();
       })
       .catch(error => console.log(error))
   }
 
-  private setup(): void {
+  private closeAll(): void {
     this.collection.forEach((el) => {
       el.options = { clicked: false };
     })
@@ -46,7 +46,9 @@ export class ListComponent implements OnInit {
 
   private onClickElement(evenet, element): void {
     event.stopPropagation();
-    element.options.clicked = !element.options.clicked;
+    let actual: boolean = element.options.clicked;
+    this.closeAll();
+    element.options.clicked = !actual;
     this.listClick.emit(element);
   }
 
