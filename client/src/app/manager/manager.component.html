@@ -1,0 +1,22 @@
+<div (click)="$event.preventDefault()">
+  <tabset [justified]="true">
+    <tab heading={{title}}>
+      <app-series (setSeries)="setSeries($event)"></app-series>
+    </tab>
+    <tab heading="Actors">
+      <app-actor [series]="series"></app-actor>
+    </tab>
+    <tab heading="Directors">
+      <app-director [series]="series"></app-director>
+    </tab>
+    <tab heading="Creators">
+      <app-creator [series]="series"></app-creator>
+    </tab>
+    <tab heading="Awards">
+      <app-award [series]="series"></app-award>
+    </tab>
+    <tab heading="Company">
+      <app-company></app-company>
+    </tab>
+  </tabset>
+</div>
