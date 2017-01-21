@@ -1,10 +1,38 @@
 from series.models import Series, Season, Episode, Award, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
 from rest_framework import serializers
 
+class PersonSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Person
+        fields = ('name', 'surname', 'birthDate')
+
+class DirectorSerializer(PersonSerializer):
+    class Meta:
+        model = Director
+        #fields = ('__all__') #+id_director
+        # exclude = ('id_director',) #needs to be a list or tuple. thats why ','
+        fields = ('id_director', 'url', 'name', 'surname', 'birthDate')
+
+class CreatorSerializer(PersonSerializer):
+    class Meta:
+        model = Creator
+        # exclude = ('id_creator', 'name')
+        fields = ('id_creator', 'url', 'name', 'surname', 'birthDate')
+
+class ActorSerializer(PersonSerializer):
+    class Meta:
+        model = Actor
+        fields = ('id_actor', 'url', 'name', 'surname', 'birthDate')
+
+class CompanySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id_company', 'name', 'country')
+
 class SeriesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Series
-        fields = ('title', 'releaseDate', 'website', 'language', 'category')
+        fields = ('actors', 'directors', 'creators', 'title', 'releaseDate', 'website', 'language', 'category') #'company'
 
 class SeasonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -31,11 +59,6 @@ class AwardSerializer(serializers.HyperlinkedModelSerializer):
         model = Award
         fields = ('series', 'name', 'year')
 
-class CompanySerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Company
-        fields = ('series', 'name', 'country')
-
 class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Stat
@@ -50,24 +73,3 @@ class StatEpisodeSerializer(StatSerializer):
     class Meta:
         model = StatEpisode
         fields = ('__all__')
-
-class PersonSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Person
-        fields = ('name', 'surname', 'birthDate')
-
-class DirectorSerializer(PersonSerializer):
-    class Meta:
-        model = Director
-        #fields = ('__all__') #+id_director
-        exclude = ('id_director',) #needs to be a list or tuple. thats why ','
-
-class CreatorSerializer(PersonSerializer):
-    class Meta:
-        model = Creator
-        exclude = ('id_creator',)
-
-class ActorSerializer(PersonSerializer):
-    class Meta:
-        model = Actor
-        exclude = ('id_actor',)
