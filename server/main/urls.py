@@ -36,6 +36,7 @@ router.register(prefix = 'creator', viewset = views.CreatorViewSet)
 router.register(prefix = 'actor', viewset = views.ActorViewSet)
 
 urlpatterns = [
+    url(r'^api/', include(router.urls)),
     url(r'^', include(router.urls)),
     url(r'^', include(series_router.urls)),
     url(r'^', include(seasons_router.urls)),
