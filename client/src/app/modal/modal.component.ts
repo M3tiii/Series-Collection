@@ -6,8 +6,7 @@ import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
-  inputs: ['header', 'content']
+  styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit {
   @ViewChild('childModal') public childModal: ModalDirective;
@@ -15,8 +14,12 @@ export class ModalComponent implements OnInit {
   header: string;
   content: string;
   data: any;
+  callback: any;
 
-  public showChildModal(data = null): void {
+  public showChildModal(callback, header: string, content: string, data = null): void {
+    this.callback = callback;
+    this.header = header;
+    this.content = content;
     this.data = data;
     this.childModal.show();
   }
@@ -27,7 +30,7 @@ export class ModalComponent implements OnInit {
   }
 
   public accept(): void {
-    this.submitSuccess.emit(this.data);
+    this.submitSuccess.emit({ data: this.data, callback: this.callback });
     this.hideChildModal();
   }
 
