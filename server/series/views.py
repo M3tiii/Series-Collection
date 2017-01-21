@@ -13,12 +13,12 @@ class SeriesViewSet(viewsets.ModelViewSet):
     serializer_class = SeriesSerializer
     def list(self, request,):
         queryset = Series.objects.filter()
-        serializer = SeriesSerializer(queryset, many=True)
+        serializer = SeriesSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
     def retrieve(self, request, pk=None):
         queryset = Series.objects.filter()
         series = get_object_or_404(queryset, pk=pk)
-        serializer = SeriesSerializer(series)
+        serializer = SeriesSerializer(series, context={'request': request})
         return Response(serializer.data)
 
 class SeasonViewSet(viewsets.ModelViewSet):
@@ -68,9 +68,6 @@ class StatEpisodeViewSet(viewsets.ModelViewSet):
     serializer_class = StatEpisodeSerializer
 
 # class PersonViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
 #     queryset = Person.objects.all()
 #     serializer_class = PersonSerializer
 
