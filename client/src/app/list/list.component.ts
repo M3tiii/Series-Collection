@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Element, getEmptyElement } from '../services/elements';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { ModalComponent } from '../modal/modal.component';
@@ -7,7 +7,7 @@ import { ModalComponent } from '../modal/modal.component';
   selector: 'app-list',
   templateUrl: 'list.component.html',
   styleUrls: ['list.component.css'],
-  inputs: ['elements', 'service', 'nested', 'nestedLevel']
+  inputs: ['elements', 'service', 'nested', 'nestedLevel', 'markers']
 })
 
 export class ListComponent implements OnInit {
@@ -15,6 +15,7 @@ export class ListComponent implements OnInit {
   @ViewChild(ModalComponent) modalComponent: ModalComponent;
   @ViewChild('searchInput') searchInputElement;
   @Output() listClick = new EventEmitter();
+
   collection: any[];
   service: any;
   elements: Element[];
@@ -26,6 +27,8 @@ export class ListComponent implements OnInit {
   colors: string[] = ['#333', '#555', '#777', '#eee'];
   searchText: string = '';
   searchIsOpen: boolean = false;
+  markers: any;
+  isLoaded: boolean = false;
 
   constructor() { }
 
@@ -34,8 +37,26 @@ export class ListComponent implements OnInit {
       .then(collection => {
         this.collection = collection
         this.closeAll();
+        this.isLoaded = true;
       })
       .catch(error => console.log(error))
+  }
+
+  private markAll(): void {
+    this.collection.forEach((el) => {
+      el.options = { mark: this.markValid(el) }
+    })
+  }
+
+  private markValid(el): number {
+    if (this.markers) {
+      let markList = this.markers[this.service.name];
+      if (markList.indexOf(el.url) > -1) {
+        return 2;
+      }
+      return 1;
+    }
+    return 0;
   }
 
   private closeAll(): void {
@@ -49,7 +70,7 @@ export class ListComponent implements OnInit {
     let actual: boolean = element.options.clicked;
     this.closeAll();
     element.options.clicked = !actual;
-    this.listClick.emit(element);
+    this.listClick.emit(element.options.clicked ? element : null);
   }
 
   private onClickHeader(event, element): void {
@@ -75,7 +96,7 @@ export class ListComponent implements OnInit {
 
   private onRemove(event, element): void {
     event.stopPropagation();
-    this.modalComponent.showChildModal(element);
+    this.modalComponent.showChildModal((ev) => this.submitRemove(ev), "Are you sure?", "DELETE", element);
   }
 
   private onEdit(event, element): void {
@@ -85,9 +106,12 @@ export class ListComponent implements OnInit {
 
   private onAdd(event): void {
     event.stopPropagation();
-    console.log(this);
-    console.log(getEmptyElement(this.elements));
     this.editFormComponent.showChildModal(getEmptyElement(this.elements), this.editFormComponent.post);
+  }
+
+  private onMark(event, element): void {
+    event.stopPropagation();
+    this.modalComponent.showChildModal((ev) => this.submitMark(ev), "Are you sure?", "TOGGLE MARK", element);
   }
 
   private getThemeColor(level = this.nestedLevel): string {
@@ -102,19 +126,37 @@ export class ListComponent implements OnInit {
     this.fetch();
   }
 
+  private submitModal(response): void {
+    response.callback(response.data);
+  }
+
   private submitRemove(element): void {
     this.service.delete(element[this.service.id]).then(() => {
       this.fetch();
-      // let index = this.collection.indexOf(element);
-      // this.collection.splice(index, 1);
     }).catch(() => {
       console.log("FAILED");
     });
   }
 
+  private submitMark(element): void {
+    let source = this.markers[this.service.name];
+    let index = source.indexOf(element.url);
+    if (index === -1) {
+      source.push(element.url);
+    } else {
+      source.splice(index, 1);
+    }
+    this.service.putParent(this.markers.title, this.markers);
+  }
+
   ngOnInit() {
     this.indexClass = 'col-md-' + this.nestedLevel;
     this.fetch();
+  }
+
+  ngOnChanges() {
+    if (this.isLoaded)
+      this.markAll();
   }
 
 }

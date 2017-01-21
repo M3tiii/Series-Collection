@@ -29,3 +29,12 @@ table .row-add td {
   height: 10px;
   padding: 1px;
 }
+
+table .marked-element {
+  background-color: rgba(90, 200, 0, 0.2);
+}
+
+table span .glyphicon {
+  cursor: pointer;
+  cursor: hand;
+}

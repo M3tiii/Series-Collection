@@ -1,5 +1,5 @@
 <app-edit-form (submitSuccess)="submitSuccess($event)" [elements]="elements" [service]="service"></app-edit-form>
-<app-modal (submitSuccess)="submitRemove($event)" [header]="'Are you sure?'" [content]="'DELETE'"></app-modal>
+<app-modal (submitSuccess)="submitModal($event)"></app-modal>
 <table class="table table-hover">
   <thead class="thead">
     <tr [style.background]="getThemeColor()" class="text-white">
@@ -30,7 +30,7 @@
   </thead>
   <tbody>
     <ng-container *ngFor="let value of collection | filter : [searchText] | orderBy : [sortableType]+[sortableElement]; let i = index">
-      <tr (click)="onClickElement($event, value)">
+      <tr [ngClass]="{'marked-element': value.options.mark == 2 }" (click)="onClickElement($event, value)">
         <td class="text-white" [style.background]="getThemeColor(0)" scope="row">
           <p *ngIf="nestedLevel==0">{{i}}</p>
         </td>
@@ -38,6 +38,10 @@
         <td>
           <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onRemove($event, value)"></span>
           <span class="glyphicon glyphicon-edit" aria-hidden="true" (click)="onEdit($event, value)"></span>
+          <span [ngSwitch]="markValid(value)" (click)="onMark($event, value)">
+            <div *ngSwitchCase="2" class="glyphicon glyphicon-star" aria-hidden="true"></div>
+            <div *ngSwitchCase="1" class="glyphicon glyphicon-star-empty" aria-hidden="true"></div>
+          </span>
         </td>
       </tr>
       <tr *ngIf="nested && value.options.clicked">
