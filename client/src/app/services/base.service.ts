@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BaseService {
-  clicked: boolean = false; // todo ?? what
   apiURL: String = 'http://localhost:8000/series/';
 
   constructor(private http: Http, private fullURL) { }
@@ -20,19 +19,27 @@ export class BaseService {
     return this.http.put(this.fullURL + elementId + '/', value).toPromise().then(
       (res: any) => {
         let data = res.json();
-        console.log(res);
         if (data.id_token) {
         }
       }
     );//.catch(this.handleError);
   }
-  //todo otwieranie jednej listy zamyka inne
+
+  putParent(elementId: string, value: any): any {
+    return this.http.put(this.apiURL + elementId + '/', value).toPromise().then(
+      (res: any) => {
+        let data = res.json();
+        if (data.id_token) {
+        }
+      }
+    ).catch(this.handleError);
+  }
+
   //todo hover click na actions
-  post(value: any): any { //todo return type
+  post(value: any): any {
     return this.http.post(this.fullURL, value).toPromise().then(
       (res: any) => {
         let data = res.json();
-        console.log(res);
         if (data.id_token) {
         }
       }
@@ -43,7 +50,6 @@ export class BaseService {
     return this.http.delete(this.fullURL + elementId + '/').toPromise().then(
       (res: any) => {
         let data = res.json();
-        console.log(res);
       }
     ).catch(this.handleError);
   }
