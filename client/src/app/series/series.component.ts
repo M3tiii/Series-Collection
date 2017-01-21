@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Element, setupElements } from '../services/elements';
 import { SeriesService } from '../services/series.service';
 import { SeasonComponent } from '../season/season.component';
@@ -10,6 +10,7 @@ import { SeasonComponent } from '../season/season.component';
   providers: [SeriesService],
 })
 export class SeriesComponent implements OnInit {
+  @Output() setSeries = new EventEmitter();
   elements: Element[];
   nested = SeasonComponent;
   level: number = 0;
@@ -26,6 +27,7 @@ export class SeriesComponent implements OnInit {
   }
 
   listClick(element) {
+    this.setSeries.emit(element);
     // console.log(element);
   }
 
