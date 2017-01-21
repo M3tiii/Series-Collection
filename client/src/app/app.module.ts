@@ -14,6 +14,12 @@ import { EditFormComponent } from './edit-form/edit-form.component';
 import { OrderBy } from './pipes/orderBy.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ModalComponent } from './modal/modal.component';
+import { CreatorComponent } from './creator/creator.component';
+import { DirectorComponent } from './director/director.component';
+import { AwardComponent } from './award/award.component';
+import { CompanyComponent } from './company/company.component';
+import { ActorComponent } from './actor/actor.component';
+import { ManagerComponent } from './manager/manager.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +34,12 @@ import { ModalComponent } from './modal/modal.component';
     EditFormComponent,
     FilterPipe,
     ModalComponent,
+    CreatorComponent,
+    DirectorComponent,
+    AwardComponent,
+    CompanyComponent,
+    ActorComponent,
+    ManagerComponent,
   ],
   entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
