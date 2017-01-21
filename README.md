@@ -9,6 +9,7 @@ Install requirements:
 - `pip install django`  
 - `pip install djangorestframework`  
 - `pip install drf-nested-routers`
+- `pip install django-extensions`
 
 Run server:
 - `cd server`  
