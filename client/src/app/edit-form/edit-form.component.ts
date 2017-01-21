@@ -30,13 +30,14 @@ export class EditFormComponent implements OnInit {
   }
 
   public showChildModal(value: any, callback: any): void {
-    console.log(this);
     this.callback = callback;
     this.field = value;
     this.myForm = this.toFormGroup();
     if (callback == this.put) {
       this.id = this.service.id;
-      this.myForm.get(this.id).disable(true);
+      if (this.myForm.get(this.id)) {
+        this.myForm.get(this.id).disable(true);
+      }
     }
     this.isReady = true;
     this.childModal.show();
@@ -60,8 +61,8 @@ export class EditFormComponent implements OnInit {
 
   public put(value: any) {
     value[this.id] = this.myForm.get(this.id).value;
-    console.log(value);
-    let promise = this.service.put(this.field[this.id], value);
+    Object.assign(this.field, value);
+    let promise = this.service.put(this.field[this.id], this.field);
     promise.then(() => {
       this.hideChildModal();
       this.submitSuccess.emit();
@@ -73,7 +74,6 @@ export class EditFormComponent implements OnInit {
   private handleError(status: any): void {
     this.clearError();
     const body = status.json() || '';
-    console.log(body);
     for (let error in body) {
       let element = this.elements.filter(x => x.value == error)[0];
       element.isError = true;
