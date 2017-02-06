@@ -22,7 +22,9 @@ export class EditFormComponent implements OnInit {
   isReady: boolean = false;
   callback: any;
   id: string;
+  externalError: string[];
   @Output() submitSuccess = new EventEmitter();
+  @Output() submitError = new EventEmitter();
   @ViewChild('childModal') public childModal: ModalDirective;
 
   constructor(componentsHelper: ComponentsHelper, viewContainerRef: ViewContainerRef) {
@@ -56,6 +58,7 @@ export class EditFormComponent implements OnInit {
       this.submitSuccess.emit();
     }).catch((status) => {
       this.handleError(status);
+      this.submitError.emit();
     });
   }
 
@@ -68,21 +71,28 @@ export class EditFormComponent implements OnInit {
       this.submitSuccess.emit();
     }).catch((status) => {
       this.handleError(status);
+      this.submitError.emit();
     });
   }
 
   private handleError(status: any): void {
     this.clearError();
     const body = status.json() || '';
+    console.log(body);
     for (let error in body) {
+      console.log(error);
       let element = this.elements.filter(x => x.value == error)[0];
-      element.isError = true;
-      element.textError = body[error];
+      if (element) {
+        element.isError = true;
+        element.textError = body[error];
+      } else
+        this.externalError.push(body[error]);
     };
   }
 
   private clearError(): void {
     this.elements.forEach(el => el.isError = false);
+    this.externalError = [];
   }
 
   private blockId(element: any): boolean {

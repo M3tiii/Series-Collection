@@ -16,6 +16,9 @@
               <!-- <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small> -->
               <small *ngIf="element.isError" class="text-danger">{{element.textError}}</small>
             </div>
+            <div>
+              <p *ngFor="let error of externalError" class="text-warning">{{error}}</p>
+            </div>
             <button type="submit" [disabled]="!myForm.valid" (click)="onSubmit(myForm.value)" class="btn btn-default">Submit</button>
           </form>
         </div>
