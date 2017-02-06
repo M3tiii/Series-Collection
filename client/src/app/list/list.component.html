@@ -1,4 +1,4 @@
-<app-edit-form (submitSuccess)="submitSuccess($event)" [elements]="elements" [service]="service"></app-edit-form>
+<app-edit-form (submitSuccess)="submitSuccess($event)" (submitError)="submitError($event)" [elements]="elements" [service]="service"></app-edit-form>
 <app-modal (submitSuccess)="submitModal($event)"></app-modal>
 <table class="table table-hover">
   <thead class="thead">
@@ -38,7 +38,7 @@
         <td>
           <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onRemove($event, value)"></span>
           <span class="glyphicon glyphicon-edit" aria-hidden="true" (click)="onEdit($event, value)"></span>
-          <span [ngSwitch]="markValid(value)" (click)="onMark($event, value)">
+          <span [ngSwitch]="value.options.mark" (click)="onMark($event, value)">
             <div *ngSwitchCase="2" class="glyphicon glyphicon-star" aria-hidden="true"></div>
             <div *ngSwitchCase="1" class="glyphicon glyphicon-star-empty" aria-hidden="true"></div>
           </span>

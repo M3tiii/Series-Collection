@@ -37,6 +37,7 @@ export class ListComponent implements OnInit {
       .then(collection => {
         this.collection = collection
         this.closeAll();
+        this.markAll();
         this.isLoaded = true;
       })
       .catch(error => console.log(error))
@@ -64,6 +65,13 @@ export class ListComponent implements OnInit {
       el.options = { clicked: false };
     })
   }
+
+  // private foundClicked(): any {
+  //   let element;
+  //   if (this.collection)
+  //     element = this.collection.find((el) => { return el.options.clicked == true; });
+  //   return element ? element : null;
+  // }
 
   private onClickElement(evenet, element): void {
     event.stopPropagation();
@@ -126,6 +134,10 @@ export class ListComponent implements OnInit {
     this.fetch();
   }
 
+  private submitError(): void {
+    this.fetch();
+  }
+
   private submitModal(response): void {
     response.callback(response.data);
   }
@@ -134,7 +146,8 @@ export class ListComponent implements OnInit {
     this.service.delete(element[this.service.id]).then(() => {
       this.fetch();
     }).catch(() => {
-      console.log("FAILED");
+      this.fetch();
+      this.modalComponent.showChildModal(() => { }, "Failed remove.", "OK", null);
     });
   }
 
@@ -146,7 +159,16 @@ export class ListComponent implements OnInit {
     } else {
       source.splice(index, 1);
     }
-    this.service.putParent(this.markers.title, this.markers);
+    let promise = this.service.putParent(this.markers.title, this.markers);
+    promise.then(() => {
+      this.markAll();
+    }).catch((status) => {
+      index = source.indexOf(element.url);
+      source.splice(index, 1);
+      this.fetch();
+      this.modalComponent.showChildModal(() => { }, "Failed mark.", "OK", null);
+    });
+
   }
 
   ngOnInit() {
