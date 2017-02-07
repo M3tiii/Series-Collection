@@ -13,7 +13,7 @@ export class StatsService extends BaseService {
   }
 
   setUrl(parentURL: String) {
-    super.setUrl(parentURL + '/stats/');
+    super.setUrl(this.apiURL + parentURL + '/stats/');
   }
 
 }

@@ -55,8 +55,7 @@ export class BaseService {
   }
 
   setUrl(childURL: String) {
-    this.fullURL = this.apiURL + childURL;
-    console.log(this.fullURL)
+    this.fullURL = childURL;
   }
 
   private handleError(error: Response | any) {
