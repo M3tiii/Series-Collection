@@ -1,0 +1,39 @@
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" *ngIf="isLoaded">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{field.title}} - Statistic</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Filmweb</td>
+              <td>
+                <rating [(ngModel)]="collection.ratingF" [max]="max" [readonly]="isReadonly"></rating>
+              </td>
+            </tr>
+            <tr>
+              <td>Votes:</td>
+              <td><input type="number" class="form-control" id="votesF" [(ngModel)]="collection.votesF" required></td>
+            </tr>
+            <tr>
+              <td>IMDb</td>
+              <td>
+                <rating [(ngModel)]="collection.ratingI" [max]="max" [readonly]="isReadonly"></rating>
+              </td>
+            </tr>
+            <tr>
+              <td>Votes:</td>
+              <td><input type="number" class="form-control" id="votesI" [(ngModel)]="collection.votesI" required></td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="submit" (click)="onSubmit()" class="btn btn-default">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
