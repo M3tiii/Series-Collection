@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, Output, EventEmitter, ViewChild } from '@
 import { Element, getEmptyElement } from '../services/elements';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { ModalComponent } from '../modal/modal.component';
+import { StatsComponent } from '../stats/stats.component';
 
 @Component({
   selector: 'app-list',
@@ -13,6 +14,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class ListComponent implements OnInit {
   @ViewChild(EditFormComponent) editFormComponent: EditFormComponent;
   @ViewChild(ModalComponent) modalComponent: ModalComponent;
+  @ViewChild(StatsComponent) statsComponent: StatsComponent;
   @ViewChild('searchInput') searchInputElement;
   @Output() listClick = new EventEmitter();
 
@@ -120,6 +122,11 @@ export class ListComponent implements OnInit {
   private onMark(event, element): void {
     event.stopPropagation();
     this.modalComponent.showChildModal((ev) => this.submitMark(ev), "Are you sure?", "TOGGLE MARK", element);
+  }
+
+  private showStats(event, element): void {
+    event.stopPropagation();
+    this.statsComponent.showChildModal(element);
   }
 
   private getThemeColor(level = this.nestedLevel): string {
