@@ -19,10 +19,10 @@ export class SeriesComponent implements OnInit {
     this.elements = [];
 
     setupElements(this.elements, [ //#todo add type && required
-      { header: "Title", value: "title", isSortable: true },
-      { header: "Website", value: "website", isSortable: true },
-      { header: "Language", value: "language", isSortable: true },
-      { header: "Category", value: "category", isSortable: false },
+      { header: "Title", value: "title", isSortable: true, isEditable: true },
+      { header: "Website", value: "website", isSortable: true, isEditable: true },
+      { header: "Language", value: "language", isSortable: true, isEditable: true },
+      { header: "Category", value: "category", isSortable: false, isEditable: true },
     ])
   }
 

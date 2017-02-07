@@ -17,9 +17,8 @@ export class SeasonComponent implements OnInit {
   constructor(private service: SeasonService) {
     this.elements = [];
     setupElements(this.elements, [
-      // { header: "series", value: "series", isSortable: true },
-      { header: "number", value: "number", isSortable: true },
-      { header: "episodes", value: "episodes", isSortable: true },
+      { header: "Number", value: "number", isSortable: true, isEditable: true },
+      { header: "Episodes", value: "episodes", isSortable: true, isEditable: false },
     ])
   }
 
