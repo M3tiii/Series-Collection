@@ -44,7 +44,7 @@
             <div *ngSwitchCase="2" class="glyphicon glyphicon-star" aria-hidden="true"></div>
             <div *ngSwitchCase="1" class="glyphicon glyphicon-star-empty" aria-hidden="true"></div>
           </span>
-          <span class="glyphicon glyphicon-stats" aria-hidden="true" (click)="showStats($event, value)"></span>
+          <span *ngIf="service.name == 'Series'" class="glyphicon glyphicon-stats" aria-hidden="true" (click)="showStats($event, value)"></span>
         </td>
       </tr>
       <tr *ngIf="nested && value.options.clicked">

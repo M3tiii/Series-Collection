@@ -17,7 +17,6 @@ table {
 
 table thead .search-menu {
   opacity: 0.8;
-  /* Good browsers */
   padding: 0;
 }
 
@@ -34,7 +33,7 @@ table .marked-element {
   background-color: rgba(90, 200, 0, 0.2);
 }
 
-table span .glyphicon {
+table span {
   cursor: pointer;
   cursor: hand;
 }
