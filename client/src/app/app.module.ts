@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { TabsModule, ModalModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { TabsModule, ModalModule, DropdownModule, RatingModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
 import { DclWrapper } from './dcl-wrapper/dcl-wrapper.component';
@@ -20,6 +20,7 @@ import { AwardComponent } from './award/award.component';
 import { CompanyComponent } from './company/company.component';
 import { ActorComponent } from './actor/actor.component';
 import { ManagerComponent } from './manager/manager.component';
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ManagerComponent } from './manager/manager.component';
     CompanyComponent,
     ActorComponent,
     ManagerComponent,
+    StatsComponent,
   ],
   entryComponents: [SeasonComponent, EpisodeComponent],
   imports: [
@@ -51,6 +53,7 @@ import { ManagerComponent } from './manager/manager.component';
     ModalModule,
     TabsModule,
     DropdownModule,
+    RatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
