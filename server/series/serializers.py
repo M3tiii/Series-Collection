@@ -59,10 +59,18 @@ class AwardSerializer(serializers.HyperlinkedModelSerializer):
         model = Award
         fields = ('series', 'name', 'year')
 
+# class StatSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Stat
+#         fields = ('ratingF', 'ratingI', 'votesF', 'votesI')
 class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Stat
-        fields = ('ratingF', 'ratingI', 'votesF', 'votesI')
+        fields = ('id', 'ratingF', 'ratingI', 'votesF', 'votesI')
+    def save(self, *args, **kwargs):
+        series_pk = self.context['view'].kwargs['series_pk']
+        kwargs['series'] = Series.objects.get(pk=series_pk)
+        return super(StatSerializer, self).save(*args, **kwargs)
 
 class StatSeriesSerializer(StatSerializer):
     class Meta:

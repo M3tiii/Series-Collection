@@ -55,9 +55,22 @@ class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
+# class StatViewSet(viewsets.ModelViewSet):
+#     queryset = Stat.objects.all()
+#     serializer_class = StatSerializer
+
 class StatViewSet(viewsets.ModelViewSet):
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
+    def list(self, request, series_pk=None):
+        queryset = Stat.objects.filter(series=series_pk)
+        serializer = StatSerializer(queryset, many=True)
+        return Response(serializer.data)
+    def retrieve(self, request, pk=None, series_pk=None):
+        queryset = Stat.objects.filter(pk=pk, series=series_pk)
+        stat = get_object_or_404(queryset, pk=pk)
+        serializer = StatSerializer(stat)
+        return Response(serializer.data)
 
 class StatSeriesViewSet(viewsets.ModelViewSet):
     queryset = StatSeries.objects.all()

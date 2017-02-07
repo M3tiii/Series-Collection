@@ -23,12 +23,15 @@ router.register(r'series', views.SeriesViewSet, base_name='series')
 series_router = routers.NestedSimpleRouter(router, r'series', lookup='series')
 series_router.register(r'seasons', views.SeasonViewSet, base_name='seasons')
 
+series_router.register(r'stats', views.StatViewSet, base_name='stats')
+stats_router = routers.NestedSimpleRouter(series_router, r'stats', lookup='stat')##
+
 seasons_router = routers.NestedSimpleRouter(series_router, r'seasons', lookup='season')##
 seasons_router.register(r'episodes', views.EpisodeViewSet, base_name='episodes')##
 
 router.register(prefix = 'award', viewset = views.AwardViewSet)
 router.register(prefix = 'company', viewset = views.CompanyViewSet)
-router.register(prefix = 'stat', viewset = views.StatViewSet)
+# router.register(prefix = 'stat', viewset = views.StatViewSet)
 router.register(prefix = 'statSeries', viewset = views.StatSeriesViewSet)
 router.register(prefix = 'statEpisode', viewset = views.StatEpisodeViewSet)
 router.register(prefix = 'director', viewset = views.DirectorViewSet)

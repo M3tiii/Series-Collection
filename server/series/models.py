@@ -68,6 +68,8 @@ class Award(models.Model): #TODO
     year = models.DateField(default=date.today) #releaseDate #DateTimeField
 
 class Stat(models.Model):
+    series = models.ForeignKey(Series)
+    id = models.AutoField(primary_key=True)
     ratingF = models.DecimalField(max_digits=2, decimal_places=1, default=0.0) #FloatField
     ratingI = models.DecimalField(max_digits=2, decimal_places=1, default=0.0)
     votesF = models.IntegerField(default=0)
