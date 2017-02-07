@@ -11,15 +11,18 @@
         <div *ngIf="isReady" class="container">
           <form [formGroup]="myForm" (ngsubmit)="onSubmit(myForm.value)" #test="ngForm">
             <div class="form-group" *ngFor="let element of elements">
-              <label [attr.for]="element.value">{{element.header}}</label>
-              <input [type]="element.type" [id]="element.value" [formControlName]="element.value" class="form-control form-control-danger">
-              <!-- <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small> -->
-              <small *ngIf="element.isError" class="text-danger">{{element.textError}}</small>
+              <div *ngIf="element.isEditable">
+                <label [attr.for]="element.value">{{element.header}}</label>
+                <input [type]="element.type" [id]="element.value" [formControlName]="element.value" class="form-control form-control-danger">
+                <!-- <small *ngIf="!myForm.controls[element.value].valid" class="text-danger">{{element.header}} is invalid</small> -->
+                <small *ngIf="element.isError" class="text-danger">{{element.textError}}</small>
+              </div>
             </div>
             <div>
               <p *ngFor="let error of externalError" class="text-warning">{{error}}</p>
             </div>
-            <button type="submit" [disabled]="!myForm.valid" (click)="onSubmit(myForm.value)" class="btn btn-default">Submit</button>
+            <button type="submit" (click)="onSubmit(myForm.value)" class="btn btn-default">Submit</button>
+            <!--  #todo submit on valid  -->
           </form>
         </div>
       </div>

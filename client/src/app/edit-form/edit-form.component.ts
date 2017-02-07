@@ -63,7 +63,7 @@ export class EditFormComponent implements OnInit {
   }
 
   public put(value: any) {
-    value[this.id] = this.myForm.get(this.id).value;
+    value[this.id] = this.myForm.get(this.id) ? this.myForm.get(this.id).value : this.field[this.id];
     Object.assign(this.field, value);
     let promise = this.service.put(this.field[this.id], this.field);
     promise.then(() => {
@@ -80,7 +80,6 @@ export class EditFormComponent implements OnInit {
     const body = status.json() || '';
     console.log(body);
     for (let error in body) {
-      console.log(error);
       let element = this.elements.filter(x => x.value == error)[0];
       if (element) {
         element.isError = true;
@@ -106,8 +105,9 @@ export class EditFormComponent implements OnInit {
   private toFormGroup(): FormGroup {
     let group: any = {};
     this.elements.forEach(el => {
-      group[el.value] = el.required ? new FormControl(this.field[el.value] || '', Validators.required)
-        : new FormControl(this.field[el.value] || '');
+      if (el.isEditable)
+        group[el.value] = el.required ? new FormControl(this.field[el.value] || '', Validators.required)
+          : new FormControl(this.field[el.value] || '');
     })
     return new FormGroup(group);
   }

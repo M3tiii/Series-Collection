@@ -32,7 +32,7 @@ export class BaseService {
         if (data.id_token) {
         }
       }
-    ).catch(this.handleError);
+    )//.catch(this.handleError);
   }
 
   //todo hover click na actions
@@ -55,7 +55,8 @@ export class BaseService {
   }
 
   setUrl(childURL: String) {
-    this.fullURL = childURL;
+    this.fullURL = this.apiURL + childURL;
+    console.log(this.fullURL)
   }
 
   private handleError(error: Response | any) {

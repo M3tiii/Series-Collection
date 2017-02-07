@@ -2,6 +2,7 @@ export interface Element {
   header: string,
   value: any,
   isSortable: boolean,
+  isEditable: boolean,
   required: boolean,
   isError: boolean,
   textError: string
@@ -9,7 +10,7 @@ export interface Element {
 
 export function setupElements(elements, config) {
   config.forEach((el) => {
-    let newElement = { header: "", value: false, isSortable: false, type: "text", required: true, isError: false, textError: "" };
+    let newElement = { header: "", value: false, isSortable: false, isEditable: false, type: "text", required: true, isError: false, textError: "" };
     if (el.header) {
       newElement.header = el.header;
     }
@@ -19,6 +20,10 @@ export function setupElements(elements, config) {
     if (el.isSortable) {
       newElement.isSortable = el.isSortable;
     }
+    if (el.isEditable) {
+      newElement.isEditable = el.isEditable;
+    }
+
     elements.push(newElement);
   })
 }
