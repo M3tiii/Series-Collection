@@ -13,12 +13,15 @@ import { StatsService } from '../services/stats.service';
   styleUrls: ['./stats.component.css'],
   providers: [StatsService, { provide: ComponentsHelper, useClass: ComponentsHelper }],
 })
+
 export class StatsComponent implements OnInit {
-  field: any;
+  parent: any;
   collection: any;
   isLoaded: boolean = false;
-  max: number = 10;
+  maxRating: number = 10;
   isReadonly: boolean = false;
+  fields: any[];
+  errorExternal: string[];
   @ViewChild('childModal') public childModal: ModalDirective;
 
   constructor(private service: StatsService, componentsHelper: ComponentsHelper, viewContainerRef: ViewContainerRef) {
@@ -27,9 +30,16 @@ export class StatsComponent implements OnInit {
 
   public showChildModal(value: any): void {
     this.isLoaded = false;
-    this.field = value;
+    this.fields = [
+      { title: 'Filmweb', name: 'ratingF', type: 'number', rating: true, isError: false, errorText: '' },
+      { title: 'Votes', name: 'votesF', type: 'number', rating: false, isError: false, errorText: '' },
+      { title: 'IMDb', name: 'ratingI', type: 'number', rating: true, isError: false, errorText: '' },
+      { title: 'Votes', name: 'votesI', type: 'number', rating: false, isError: false, errorText: '' }
+    ]
+    this.errorExternal = '';
+    this.parent = value;
     this.childModal.show();
-    this.service.setUrl(this.field.title)
+    this.service.setUrl(this.parent.title)
     this.fetch();
     console.log(this);
   }
@@ -56,8 +66,21 @@ export class StatsComponent implements OnInit {
     promise.then(() => {
       this.hideChildModal();
     }).catch((status) => {
-      console.log(status);
+      this.handleError(status);
     });
+  }
+
+  private handleError(status: any): void {
+    const body = status.json() || '';
+    console.log(body, this);
+    for (let error in body) {
+      let element = this.fields.filter(x => x.name == error)[0];;
+      if (element) {
+        element.isError = true;
+        element.textError = body[error];
+      } else
+        this.errorExternal.push(body[error]);
+    };
   }
 
   private getEmpty(): any {
@@ -68,6 +91,7 @@ export class StatsComponent implements OnInit {
       votesI: 0
     }
   }
+
   ngOnInit() {
   }
 

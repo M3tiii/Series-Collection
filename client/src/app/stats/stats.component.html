@@ -5,33 +5,24 @@
         <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">{{field.title}} - Statistic</h4>
+        <h4 class="modal-title">{{parent.title}} - Statistic</h4>
       </div>
       <div class="modal-body">
         <table class="table">
           <tbody>
-            <tr>
-              <td>Filmweb</td>
+            <tr *ngFor="let field of fields">
+              <td>{{field.title}}</td>
               <td>
-                <rating [(ngModel)]="collection.ratingF" [max]="max" [readonly]="isReadonly"></rating>
+                <rating *ngIf="field.rating" [(ngModel)]="collection[field.name]" [max]="maxRating" [readonly]="isReadonly"></rating>
+                <input *ngIf="!field.rating" type="number" class="form-control" id="field.name" [(ngModel)]="collection[field.name]" required>
+                <small *ngIf="field.isError" class="text-danger">{{field.textError}}</small>
               </td>
-            </tr>
-            <tr>
-              <td>Votes:</td>
-              <td><input type="number" class="form-control" id="votesF" [(ngModel)]="collection.votesF" required></td>
-            </tr>
-            <tr>
-              <td>IMDb</td>
-              <td>
-                <rating [(ngModel)]="collection.ratingI" [max]="max" [readonly]="isReadonly"></rating>
-              </td>
-            </tr>
-            <tr>
-              <td>Votes:</td>
-              <td><input type="number" class="form-control" id="votesI" [(ngModel)]="collection.votesI" required></td>
             </tr>
           </tbody>
         </table>
+        <div>
+          <p *ngFor="let error of externalError" class="text-warning">{{error}}</p>
+        </div>
         <button type="submit" (click)="onSubmit()" class="btn btn-default">Submit</button>
       </div>
     </div>
