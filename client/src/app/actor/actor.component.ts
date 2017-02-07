@@ -17,10 +17,10 @@ export class ActorComponent implements OnInit {
   constructor(private service: ActorService) {
     this.elements = [];
     setupElements(this.elements, [
-      { header: "ID", value: "id_actor", isSortable: true },
-      { header: "Name", value: "name", isSortable: true },
-      { header: "Surname", value: "surname", isSortable: true },
-      { header: "Birth Date", value: "birthDate", isSortable: true },
+      { header: "ID", value: "id_actor", isSortable: true, isEditable: false },
+      { header: "Name", value: "name", isSortable: true, isEditable: true },
+      { header: "Surname", value: "surname", isSortable: true, isEditable: true },
+      { header: "Birth Date", value: "birthDate", isSortable: true, isEditable: true },
     ])
   }
 
