@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from series.serializers import SeriesSerializer, SeasonSerializer, EpisodeSerializer, AwardSerializer, CompanySerializer, StatSerializer, PersonSerializer, DirectorSerializer, CreatorSerializer, ActorSerializer, StatSeriesSerializer, StatEpisodeSerializer
-from series.models import Series, Season, Episode, Award, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
+from series.serializers import SeriesSerializer, SeasonSerializer, EpisodeSerializer, AwardSerializer, GrantSerializer, CompanySerializer, StatSerializer, PersonSerializer, DirectorSerializer, CreatorSerializer, ActorSerializer, StatSeriesSerializer, StatEpisodeSerializer
+from series.models import Series, Season, Episode, Award, Grant, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
@@ -47,6 +47,10 @@ class EpisodeViewSet(viewsets.ModelViewSet):
         serializer = EpisodeSerializer(episode)
         return Response(serializer.data)
 
+class GrantViewSet(viewsets.ModelViewSet):
+    queryset = Grant.objects.all()
+    serializer_class = GrantSerializer
+
 class AwardViewSet(viewsets.ModelViewSet):
     queryset = Award.objects.all()
     serializer_class = AwardSerializer
@@ -54,10 +58,6 @@ class AwardViewSet(viewsets.ModelViewSet):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-
-# class StatViewSet(viewsets.ModelViewSet):
-#     queryset = Stat.objects.all()
-#     serializer_class = StatSerializer
 
 class StatViewSet(viewsets.ModelViewSet):
     queryset = Stat.objects.all()
@@ -79,10 +79,6 @@ class StatSeriesViewSet(viewsets.ModelViewSet):
 class StatEpisodeViewSet(viewsets.ModelViewSet):
     queryset = StatEpisode.objects.all()
     serializer_class = StatEpisodeSerializer
-
-# class PersonViewSet(viewsets.ModelViewSet):
-#     queryset = Person.objects.all()
-#     serializer_class = PersonSerializer
 
 class DirectorViewSet(viewsets.ModelViewSet):
     queryset = Director.objects.all()

@@ -1,4 +1,4 @@
-from series.models import Series, Season, Episode, Award, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
+from series.models import Series, Season, Episode, Grant, Award, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
 from rest_framework import serializers
 
 class PersonSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,10 +29,20 @@ class CompanySerializer(serializers.HyperlinkedModelSerializer):
         model = Company
         fields = ('id_company', 'url', 'name', 'country')
 
+class GrantSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Grant
+        fields = ('id_grant', 'date', 'award', 'series')#'id_award', 'url', 'img',
+
+class AwardSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Award
+        fields = ('url', 'name')#'id_award', 'url', 'img',
+
 class SeriesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Series
-        fields = ('actors', 'directors', 'creators', 'company', 'title', 'releaseDate', 'website', 'language', 'category') #'company'
+        fields = ('actors', 'directors', 'creators', 'company', 'awards', 'title', 'releaseDate', 'website', 'language', 'category')
 
 class SeasonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -54,15 +64,6 @@ class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
         kwargs['season'] = Season.objects.get(series=series_pk, pk=season_pk)
         return super(EpisodeSerializer, self).save(*args, **kwargs)
 
-class AwardSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Award
-        fields = ('series', 'name', 'year')
-
-# class StatSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Stat
-#         fields = ('ratingF', 'ratingI', 'votesF', 'votesI')
 class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Stat
