@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from series.serializers import SeriesSerializer, SeasonSerializer, EpisodeSerializer, AwardSerializer, GrantSerializer, CompanySerializer, StatSerializer, PersonSerializer, DirectorSerializer, CreatorSerializer, ActorSerializer, StatSeriesSerializer, StatEpisodeSerializer
-from series.models import Series, Season, Episode, Award, Grant, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
+from series.serializers import SeriesSerializer, SeasonSerializer, EpisodeSerializer, AwardSerializer, GrantSerializer, CompanySerializer, StatSerializer, PersonSerializer, DirectorSerializer, CreatorSerializer, ActorSerializer
+from series.models import Series, Season, Episode, Award, Grant, Company, Stat, Person, Director, Creator, Actor
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
@@ -71,14 +71,6 @@ class StatViewSet(viewsets.ModelViewSet):
         stat = get_object_or_404(queryset, pk=pk)
         serializer = StatSerializer(stat)
         return Response(serializer.data)
-
-class StatSeriesViewSet(viewsets.ModelViewSet):
-    queryset = StatSeries.objects.all()
-    serializer_class = StatSeriesSerializer
-
-class StatEpisodeViewSet(viewsets.ModelViewSet):
-    queryset = StatEpisode.objects.all()
-    serializer_class = StatEpisodeSerializer
 
 class DirectorViewSet(viewsets.ModelViewSet):
     queryset = Director.objects.all()

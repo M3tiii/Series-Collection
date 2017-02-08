@@ -1,4 +1,4 @@
-from series.models import Series, Season, Episode, Grant, Award, Company, Stat, StatSeries, StatEpisode, Person, Director, Creator, Actor
+from series.models import Series, Season, Episode, Grant, Award, Company, Stat, Person, Director, Creator, Actor
 from rest_framework import serializers
 
 class PersonSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,7 +32,7 @@ class CompanySerializer(serializers.HyperlinkedModelSerializer):
 class GrantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Grant
-        fields = ('id_grant', 'date', 'award', 'series')#'id_award', 'url', 'img',
+        fields = ('id_grant', 'date', 'award', 'series', 'category')#'id_award', 'url', 'img',
 
 class AwardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -56,7 +56,7 @@ class SeasonSerializer(serializers.HyperlinkedModelSerializer):
 class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Episode
-        fields = ('id', 'title', 'releaseDate', 'runtime')
+        fields = ('id', 'title', 'releaseDate', 'runtime', 'views')
     def save(self, *args, **kwargs):
         series_pk = self.context['view'].kwargs['series_pk']
         season_pk = self.context['view'].kwargs['season_pk']
@@ -67,18 +67,18 @@ class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
 class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Stat
-        fields = ('id', 'ratingF', 'ratingI', 'votesF', 'votesI')
+        fields = ('id', 'views', 'ratingF', 'ratingI', 'votesF', 'votesI')
     def save(self, *args, **kwargs):
         series_pk = self.context['view'].kwargs['series_pk']
         kwargs['series'] = Series.objects.get(pk=series_pk)
         return super(StatSerializer, self).save(*args, **kwargs)
 
-class StatSeriesSerializer(StatSerializer):
-    class Meta:
-        model = StatSeries
-        fields = ('__all__')
-
-class StatEpisodeSerializer(StatSerializer):
-    class Meta:
-        model = StatEpisode
-        fields = ('__all__')
+# class StatSeriesSerializer(StatSerializer):
+#     class Meta:
+#         model = StatSeries
+#         fields = ('__all__')
+#
+# class StatEpisodeSerializer(StatSerializer):
+#     class Meta:
+#         model = StatEpisode
+#         fields = ('__all__')
