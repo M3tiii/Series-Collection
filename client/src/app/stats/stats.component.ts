@@ -36,7 +36,7 @@ export class StatsComponent implements OnInit {
       { title: 'IMDb', name: 'ratingI', type: 'number', rating: true, isError: false, errorText: '' },
       { title: 'Votes', name: 'votesI', type: 'number', rating: false, isError: false, errorText: '' }
     ]
-    this.errorExternal = '';
+    this.errorExternal = [];
     this.parent = value;
     this.childModal.show();
     this.service.setUrl(this.parent.title)

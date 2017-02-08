@@ -5,7 +5,7 @@ import { BaseService } from './base.service';
 
 @Injectable()
 export class CompanyService extends BaseService {
-  id: String = 'series';
+  id: String = 'id_company';
   name: String = 'company';
 
   constructor(http: Http) {

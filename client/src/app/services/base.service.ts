@@ -35,7 +35,6 @@ export class BaseService {
     )//.catch(this.handleError);
   }
 
-  //todo hover click na actions
   post(value: any): any {
     return this.http.post(this.fullURL, value).toPromise().then(
       (res: any) => {

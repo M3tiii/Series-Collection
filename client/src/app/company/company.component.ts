@@ -17,9 +17,9 @@ export class CompanyComponent implements OnInit {
   constructor(private service: CompanyService) {
     this.elements = [];
     setupElements(this.elements, [
-      { header: "Series", value: "series", isSortable: true },
-      { header: "Name", value: "Name", isSortable: true },
-      { header: "Country", value: "country", isSortable: true },
+      { header: "ID", value: "id_company", isSortable: true, isEditable: false },
+      { header: "Name", value: "name", isSortable: true, isEditable: true },
+      { header: "Country", value: "country", isSortable: true, isEditable: true },
     ])
   }
 
