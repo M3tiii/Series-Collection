@@ -21,7 +21,6 @@ class Company(models.Model):
     country = models.CharField(max_length=100, default="")
 
 class Series(models.Model):
-    # company = models.ForeignKey(Company, default="", blank=True)
     title = models.CharField(primary_key=True, db_index=True, max_length=100)
     releaseDate = models.DateField(default=date.today) #DateTimeField
     website = models.URLField(max_length=500, default="")
@@ -30,6 +29,7 @@ class Series(models.Model):
     actors = models.ManyToManyField(Actor, blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     directors = models.ManyToManyField(Director, blank=True)
+    company = models.ManyToManyField(Company, blank=True)
     # awards = models.ManyToManyField(Prize, throught="Award")
     #foreign key to company
 

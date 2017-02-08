@@ -27,12 +27,12 @@ class ActorSerializer(PersonSerializer):
 class CompanySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Company
-        fields = ('id_company', 'name', 'country')
+        fields = ('id_company', 'url', 'name', 'country')
 
 class SeriesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Series
-        fields = ('actors', 'directors', 'creators', 'title', 'releaseDate', 'website', 'language', 'category') #'company'
+        fields = ('actors', 'directors', 'creators', 'company', 'title', 'releaseDate', 'website', 'language', 'category') #'company'
 
 class SeasonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
