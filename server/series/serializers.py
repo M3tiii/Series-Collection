@@ -37,12 +37,12 @@ class GrantSerializer(serializers.HyperlinkedModelSerializer):
 class AwardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Award
-        fields = ('url', 'name')#'id_award', 'url', 'img',
+        fields = ('id_award', 'url', 'name')#'id_award', 'url', 'img',
 
 class SeriesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Series
-        fields = ('actors', 'directors', 'creators', 'company', 'awards', 'title', 'releaseDate', 'website', 'language', 'category')
+        fields = ('url', 'actors', 'directors', 'creators', 'company', 'awards', 'title', 'releaseDate', 'website', 'language', 'category')
 
 class SeasonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
