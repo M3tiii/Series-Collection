@@ -19,6 +19,7 @@ export class ListComponent implements OnInit {
   @Output() listClick = new EventEmitter();
 
   collection: any[];
+  fullCollection: any[];
   service: any;
   elements: Element[];
   sortableElement: string = '';
@@ -37,7 +38,10 @@ export class ListComponent implements OnInit {
   private fetch(): void {
     this.service.get()
       .then(collection => {
-        this.collection = collection
+        this.collection = collection;
+        this.fullCollection = collection;
+        if (this.service.isNested)
+          this.filterCollection();
         this.closeAll();
         this.markAll();
         this.isLoaded = true;
@@ -45,14 +49,28 @@ export class ListComponent implements OnInit {
       .catch(error => console.log(error))
   }
 
+  private filterCollection(): void {
+    this.collection = this.fullCollection.filter((el) => {
+      if (!el.series) {
+        return true;
+      }
+      if (this.markers)
+        return (el.series === this.markers.url);
+      return false;
+    })
+  }
+
   private markAll(): void {
+    if (this.service.isNested) {
+      this.filterCollection();
+    }
     this.collection.forEach((el) => {
       el.options = { mark: this.markValid(el) }
     })
   }
 
   private markValid(el): number {
-    if (this.markers) {
+    if (this.markers && !this.service.isNested) {
       let markList = this.markers[this.service.name];
       if (markList.indexOf(el.url) > -1) {
         return 2;
@@ -67,13 +85,6 @@ export class ListComponent implements OnInit {
       el.options = { clicked: false };
     })
   }
-
-  // private foundClicked(): any {
-  //   let element;
-  //   if (this.collection)
-  //     element = this.collection.find((el) => { return el.options.clicked == true; });
-  //   return element ? element : null;
-  // }
 
   private onClickElement(evenet, element): void {
     event.stopPropagation();
@@ -150,7 +161,7 @@ export class ListComponent implements OnInit {
   }
 
   private submitRemove(element): void {
-    this.service.delete(element[this.service.id]).then(() => {
+    this.service.delete(element[this.service.id], this.service.isNested ? element[this.service.idNested] : null).then(() => {
       this.fetch();
     }).catch(() => {
       this.fetch();
@@ -175,7 +186,6 @@ export class ListComponent implements OnInit {
       this.fetch();
       this.modalComponent.showChildModal(() => { }, "Failed mark.", "OK", null);
     });
-
   }
 
   ngOnInit() {

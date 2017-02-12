@@ -28,7 +28,6 @@ export class SeriesComponent implements OnInit {
 
   listClick(element) {
     this.setSeries.emit(element);
-    // console.log(element);
   }
 
   ngOnInit() { }
