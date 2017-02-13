@@ -89,7 +89,7 @@ export class ListComponent implements OnInit {
   private onClickElement(event, element): void {
     event.stopPropagation();
     let actual: boolean = element.options.clicked;
-    if (this.service.name == 'Series') {
+    if (this.service.name == 'Series' || this.nestedLevel > 0) {
       this.closeAll();
       element.options.clicked = !actual;
     }
