@@ -14,7 +14,7 @@
               <td>{{field.title}}</td>
               <td>
                 <rating *ngIf="field.rating" [(ngModel)]="collection[field.name]" [max]="maxRating" [readonly]="isReadonly"></rating>
-                <input *ngIf="!field.rating" type="number" class="form-control" id="field.name" [(ngModel)]="collection[field.name]" required>
+                <input *ngIf="!field.rating" type="number" class="form-control" id="field.name" [(ngModel)]="collection[field.name]" [disabled]="field.isDisabled" required>
                 <small *ngIf="field.isError" class="text-danger">{{field.textError}}</small>
               </td>
             </tr>
