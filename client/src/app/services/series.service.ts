@@ -12,4 +12,11 @@ export class SeriesService extends BaseService {
     super(http, 'http://localhost:8000/series/');
   }
 
+  post(value: any) {
+    let series = super.post(value);
+    series.then(() => {
+      super.post({}, this.apiURL + value.title + '/stats/').catch(error => console.log(error));
+    })
+    return series;
+  }
 }
