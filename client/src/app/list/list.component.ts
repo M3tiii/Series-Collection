@@ -86,11 +86,13 @@ export class ListComponent implements OnInit {
     })
   }
 
-  private onClickElement(evenet, element): void {
+  private onClickElement(event, element): void {
     event.stopPropagation();
     let actual: boolean = element.options.clicked;
-    this.closeAll();
-    element.options.clicked = !actual;
+    if (this.service.name == 'Series') {
+      this.closeAll();
+      element.options.clicked = !actual;
+    }
     this.listClick.emit(element.options.clicked ? element : null);
   }
 
