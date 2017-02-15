@@ -62,8 +62,8 @@ class Season(models.Model):
     number = models.IntegerField(default=1, validators = [MinValueValidator(1)])
     episodes = models.IntegerField(default=0, validators = [MinValueValidator(0)])
 
-    # class Meta:
-    #     unique_together = ("series", "number")
+    class Meta:
+        unique_together = ("series_title", "number")
 
 class Episode(models.Model):
     series = models.ForeignKey(Series)  #TODO
