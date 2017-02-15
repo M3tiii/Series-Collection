@@ -61,8 +61,8 @@ export class EditFormComponent implements OnInit {
         if (value[atr] == "")
           delete value[atr];
     }
-    // return value;
   }
+
   public post(value: any) {
     // console.log('post', value);
     this.clearDate(value);
