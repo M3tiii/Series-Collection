@@ -38,17 +38,6 @@ class Series(models.Model):
     directors = models.ManyToManyField(Director, blank=True)
     company = models.ManyToManyField(Company, blank=True)
     awards = models.ManyToManyField(Award, through="Grant", blank=True)
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         stat = Stat.create(self)
-    #         b = Stat(series_pk = title)
-    #         book = Stat.objects.create_stat(self)
-    #         book.save()
-    #         Stat.create()
-    #         stat.save()
-    #         b.save()
-    #         stat.series_pk = title
-    #     return super(Series, self).save(*args, **kwargs)
 
 class Grant(models.Model):
     id_grant = models.AutoField(primary_key=True)
@@ -70,9 +59,10 @@ class Episode(models.Model):
     series = models.ForeignKey(Series)
     season = models.ForeignKey(Season)
     id = models.AutoField(primary_key=True)
+    number = models.IntegerField(default=1, validators = [MinValueValidator(1)])
     title = models.CharField(max_length=100, default="", blank=True)
     releaseDate = models.DateField(default=date.today, blank=True)
-    runtime = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    runtime = models.IntegerField(default=0, validators = [MinValueValidator(0)], blank=True)
     views = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     prevViews = models.IntegerField(default=0)
     def __init__(self, *args, **kwargs):
@@ -98,11 +88,6 @@ class Episode(models.Model):
         stats.save()
         return super(Episode, self).save(*args, **kwargs)
 
-class StatManager(models.Manager):
-    def create_stat(self, series):
-        stat = self.create(series=series)
-        return stat
-
 class Stat(models.Model):
     series = models.ForeignKey(Series)
     id = models.AutoField(primary_key=True)
@@ -112,7 +97,6 @@ class Stat(models.Model):
     ratingI = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     votesF = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     votesI = models.IntegerField(default=0, validators = [MinValueValidator(0)])
-    objects = StatManager()
 
     def updateAverage(self):
         allEpisodes = 0
