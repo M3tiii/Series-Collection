@@ -54,8 +54,7 @@ class SeasonSerializer(serializers.HyperlinkedModelSerializer):
             kwargs['series'] = Series.objects.get(pk=series_pk)
             return super(SeasonSerializer, self).save(*args, **kwargs)
         except IntegrityError as e:
-            # return HttpResponse("ERROR: Season already exists!")
-            res = Http404("Season already exists")
+            raise Http404("Season already exists")
             # res.detail = "Sesaon"
             # raise res
             # raise HttpResponse("ERROR: Season already exists!")
@@ -67,11 +66,14 @@ class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
         model = Episode
         fields = ('id', 'number', 'title', 'releaseDate', 'runtime', 'views')
     def save(self, *args, **kwargs):
-        series_pk = self.context['view'].kwargs['series_pk']
-        season_pk = self.context['view'].kwargs['season_pk']
-        kwargs['series'] = Series.objects.get(pk=series_pk)
-        kwargs['season'] = Season.objects.get(series=series_pk, pk=season_pk)
-        return super(EpisodeSerializer, self).save(*args, **kwargs)
+        try:
+            series_pk = self.context['view'].kwargs['series_pk']
+            season_pk = self.context['view'].kwargs['season_pk']
+            kwargs['series'] = Series.objects.get(pk=series_pk)
+            kwargs['season'] = Season.objects.get(series=series_pk, pk=season_pk)
+            return super(EpisodeSerializer, self).save(*args, **kwargs)
+        except IntegrityError as e:
+            raise Http404("Episode already exists")
 
 class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -88,6 +88,9 @@ class Episode(models.Model):
         stats.save()
         return super(Episode, self).save(*args, **kwargs)
 
+    class Meta:
+        unique_together = ("series", "season", "number")
+
 class Stat(models.Model):
     series = models.ForeignKey(Series)
     id = models.AutoField(primary_key=True)
@@ -102,4 +105,7 @@ class Stat(models.Model):
         allEpisodes = 0
         for s in Season.objects.filter(series=self.series):
             allEpisodes += s.episodes
-        self.avViews = self.views / allEpisodes
+        if allEpisodes!=0:
+            self.avViews = self.views / allEpisodes
+        else:
+            self.avViews = 0
