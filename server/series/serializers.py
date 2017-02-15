@@ -55,6 +55,7 @@ class SeasonSerializer(serializers.HyperlinkedModelSerializer):
             return super(SeasonSerializer, self).save(*args, **kwargs)
         except IntegrityError as e:
             raise Http404("Season already exists")
+            # raise ValidationError('Start time must be later than now.')
             # res.detail = "Sesaon"
             # raise res
             # raise HttpResponse("ERROR: Season already exists!")

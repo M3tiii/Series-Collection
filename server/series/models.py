@@ -49,7 +49,7 @@ class Grant(models.Model):
 class Season(models.Model):
     series = models.ForeignKey(Series)
     id = models.AutoField(primary_key=True)
-    number = models.IntegerField(default=1, validators = [MinValueValidator(1)])
+    number = models.IntegerField(default=1, validators = [MinValueValidator(1, message="Season number must be greater than 0")])
     episodes = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     def delete(self, *args, **kwargs):
         for e in Episode.objects.filter(season=self.id):
@@ -92,6 +92,10 @@ class Episode(models.Model):
         stats.views += self.views
         stats.updateAverage()
         stats.save()
+    # def clean(self, *args, **kwargs):
+    #     super(MyModel, self).clean(*args, **kwargs)
+    #     if self.releaseDate < datetime.date(1928, 1, 27):
+    #         raise ValidationError('Release date must be later than the invention of the television.')
 
     class Meta:
         unique_together = ("series", "season", "number")
