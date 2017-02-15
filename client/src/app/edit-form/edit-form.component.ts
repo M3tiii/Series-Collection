@@ -6,12 +6,15 @@ import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ViewContainerRef } from '@angular/core';
 import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
 
+import { Response, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
 @Component({
   selector: 'app-edit-form',
   templateUrl: './edit-form.component.html',
   styleUrls: ['./edit-form.component.css'],
   providers: [{ provide: ComponentsHelper, useClass: ComponentsHelper }],
-  inputs: ['elements', 'service']
+  inputs: ['elements', 'service', 'parent']
 })
 export class EditFormComponent implements OnInit {
   myForm: FormGroup;
@@ -19,6 +22,7 @@ export class EditFormComponent implements OnInit {
   collection: any[];
   service: any;
   field: any;
+  parent: any;
   isReady: boolean = false;
   callback: any;
   id: string;
@@ -52,6 +56,7 @@ export class EditFormComponent implements OnInit {
   }
 
   public post(value: any) {
+    // console.log('post', value);
     let promise = this.service.post(value);
     promise.then(() => {
       this.hideChildModal();
@@ -65,7 +70,8 @@ export class EditFormComponent implements OnInit {
   public put(value: any) {
     value[this.id] = this.myForm.get(this.id) ? this.myForm.get(this.id).value : this.field[this.id];
     Object.assign(this.field, value);
-    let promise = this.service.put(this.field[this.id], this.field);
+    // console.log('put', this.field, this);
+    let promise = this.service.put(this.field[this.id], this.field, this.parent ? this.parent.url : '');
     promise.then(() => {
       this.hideChildModal();
       this.submitSuccess.emit();
@@ -75,18 +81,21 @@ export class EditFormComponent implements OnInit {
     });
   }
 
-  private handleError(status: any): void {
+  private handleError(status: Response | any): void {
+    // console.log('error', status);
     this.clearError();
-    const body = status.json() || '';
-    console.log(body);
-    for (let error in body) {
-      let element = this.elements.filter(x => x.value == error)[0];
-      if (element) {
-        element.isError = true;
-        element.textError = body[error];
-      } else
-        this.externalError.push(body[error]);
-    };
+    if (status instanceof Response) {
+      const body = status.json() || '';
+      console.log(body);
+      for (let error in body) {
+        let element = this.elements.filter(x => x.value == error)[0];
+        if (element) {
+          element.isError = true;
+          element.textError = body[error];
+        } else
+          this.externalError.push(body[error]);
+      };
+    }
   }
 
   private clearError(): void {

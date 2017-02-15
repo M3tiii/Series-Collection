@@ -9,7 +9,14 @@ export class SeriesService extends BaseService {
   name: String = 'Series';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/series/');
+    super(http, '/series/');
   }
 
+  post(value: any) {
+    let series = super.post(value);
+    series.then(() => {
+      super.post({}, this.apiURL + value.title + '/stats/').catch(error => console.log(error));
+    })
+    return series;
+  }
 }

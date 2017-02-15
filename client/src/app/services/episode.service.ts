@@ -9,7 +9,7 @@ export class EpisodeService extends BaseService {
   name: String = 'Episode';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000');
+    super(http, '/');
   }
 
   setUrl(parentURL: String) {

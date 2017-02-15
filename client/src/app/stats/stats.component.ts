@@ -31,17 +31,17 @@ export class StatsComponent implements OnInit {
   public showChildModal(value: any): void {
     this.isLoaded = false;
     this.fields = [
-      { title: 'Filmweb', name: 'ratingF', type: 'number', rating: true, isError: false, errorText: '' },
-      { title: 'Votes', name: 'votesF', type: 'number', rating: false, isError: false, errorText: '' },
-      { title: 'IMDb', name: 'ratingI', type: 'number', rating: true, isError: false, errorText: '' },
-      { title: 'Votes', name: 'votesI', type: 'number', rating: false, isError: false, errorText: '' }
+      { title: 'Filmweb', name: 'ratingF', type: 'number', rating: true, isError: false, errorText: '', isDisabled: false },
+      { title: 'Votes', name: 'votesF', type: 'number', rating: false, isError: false, errorText: '', isDisabled: false },
+      { title: 'IMDb', name: 'ratingI', type: 'number', rating: true, isError: false, errorText: '', isDisabled: false },
+      { title: 'Votes', name: 'votesI', type: 'number', rating: false, isError: false, errorText: '', isDisabled: false },
+      { title: 'Views', name: 'views', type: 'number', rating: false, isError: false, errorText: '', isDisabled: true }
     ]
     this.errorExternal = [];
     this.parent = value;
     this.childModal.show();
     this.service.setUrl(this.parent.title)
     this.fetch();
-    console.log(this);
   }
 
   public hideChildModal(): void {

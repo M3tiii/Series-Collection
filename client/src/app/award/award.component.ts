@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Element, setupElements } from '../services/elements';
 import { AwardService } from '../services/award.service';
+// import { GrantService } from '../services/grant.service';
 
 @Component({
   selector: 'app-award',
@@ -17,9 +18,9 @@ export class AwardComponent implements OnInit {
   constructor(private service: AwardService) {
     this.elements = [];
     setupElements(this.elements, [
-      { header: "Series", value: "series", isSortable: true },
-      { header: "Name", value: "name", isSortable: true },
-      { header: "Year", value: "year", isSortable: true },
+      { header: "ID", value: "id_award", isSortable: true, isEditable: false },
+      { header: "Name", value: "name", isSortable: true, isEditable: true },
+      { header: "Year", value: "date", isSortable: false, isEditable: true },
     ])
   }
 

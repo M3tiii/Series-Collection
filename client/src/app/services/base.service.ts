@@ -4,25 +4,28 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BaseService {
-  apiURL: String = 'http://localhost:8000/series/';
+  host: String = 'http://localhost:8000';
+  apiURL: String = this.host + '/series/';
+  isNested: boolean = false;
 
-  constructor(private http: Http, private fullURL) { }
+  constructor(private http: Http, private fullURL) { this.fullURL = this.host + this.fullURL }
 
-  get() {
-    return this.http.get(this.fullURL)
+  get(url: string = this.fullURL) {
+    return this.http.get(url)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
 
-  put(elementId: string, value: any): any {
+  put(elementId: string, value: any, parent: string = ''): any {
+    // console.log(this.fullURL, elementId + '/');
     return this.http.put(this.fullURL + elementId + '/', value).toPromise().then(
       (res: any) => {
         let data = res.json();
         if (data.id_token) {
         }
       }
-    );//.catch(this.handleError);
+    )//.catch(this.handleError);
   }
 
   putParent(elementId: string, value: any): any {
@@ -35,22 +38,22 @@ export class BaseService {
     )//.catch(this.handleError);
   }
 
-  post(value: any): any {
-    return this.http.post(this.fullURL, value).toPromise().then(
+  post(value: any, url: string = this.fullURL): any {
+    return this.http.post(url, value).toPromise().then(
       (res: any) => {
         let data = res.json();
         if (data.id_token) {
         }
       }
-    );//.catch(this.handleError);
+    )//.catch(this.handleError);
   }
 
-  delete(elementId: string): any {
+  delete(elementId: string, nestedId: string = null): any {
     return this.http.delete(this.fullURL + elementId + '/').toPromise().then(
       (res: any) => {
         let data = res.json();
       }
-    ).catch(this.handleError);
+    )//.catch(this.handleError);
   }
 
   setUrl(childURL: String) {

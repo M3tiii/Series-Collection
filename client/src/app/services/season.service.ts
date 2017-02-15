@@ -9,7 +9,7 @@ export class SeasonService extends BaseService {
   name: String = 'Season';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/');
+    super(http, '/');
   }
 
   setUrl(parentURL: String) {

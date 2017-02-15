@@ -32,14 +32,19 @@ export class DclWrapper {
     }
 
     let factory = this.componentFactoryResolver.resolveComponentFactory(this.type);
+
     this.cmpRef = this.target.createComponent(factory)
+
+    let tmp = { _component: null }
+    Object.assign(tmp, this.cmpRef);
+
     // to access the created instance use
     // console.log(this, this.parent, this.service);
-
-    let component = this.cmpRef.instance.getComponent();
-    component.level = this.level + 1;
-    component.service.setUrl(this.service.fullURL + this.parent[this.service.id]);
-
+    if (this.cmpRef.instance) {
+      let component = tmp._component.getComponent();
+      component.level = this.level + 1;
+      component.service.setUrl(this.service.fullURL + this.parent[this.service.id]);
+    }
     // this.compRef.instance.someProperty = 'someValue';
     // this.compRef.instance.someOutput.subscribe(val => doSomething());
   }

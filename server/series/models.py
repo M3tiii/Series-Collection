@@ -24,6 +24,7 @@ class Company(models.Model):
     country = models.CharField(max_length=100, default="", blank=True)
 
 class Award(models.Model):
+    id_award = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default="")
 
 class Series(models.Model):
