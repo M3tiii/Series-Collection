@@ -55,8 +55,17 @@ export class EditFormComponent implements OnInit {
     this.isReady = false;
   }
 
+  private clearDate(value: any) {
+    for (let atr in value) {
+      if (atr.includes('Date') || atr.includes('date'))
+        if (value[atr] == "")
+          delete value[atr];
+    }
+    // return value;
+  }
   public post(value: any) {
     // console.log('post', value);
+    this.clearDate(value);
     let promise = this.service.post(value);
     promise.then(() => {
       this.hideChildModal();
@@ -68,9 +77,11 @@ export class EditFormComponent implements OnInit {
   }
 
   public put(value: any) {
+    // console.log('put', value);
+    this.clearDate(value);
     value[this.id] = this.myForm.get(this.id) ? this.myForm.get(this.id).value : this.field[this.id];
     Object.assign(this.field, value);
-    // console.log('put', this.field, this);
+    console.log('put', this.field, this);
     let promise = this.service.put(this.field[this.id], this.field, this.parent ? this.parent.url : '');
     promise.then(() => {
       this.hideChildModal();
