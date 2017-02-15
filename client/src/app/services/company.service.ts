@@ -9,7 +9,7 @@ export class CompanyService extends BaseService {
   name: String = 'company';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/company/');
+    super(http, '/company/');
   }
 
   setUrl(parentURL: String) {

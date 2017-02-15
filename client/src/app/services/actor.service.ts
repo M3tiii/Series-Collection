@@ -9,7 +9,7 @@ export class ActorService extends BaseService {
   name: String = 'actors';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/actor/');
+    super(http, '/actor/');
   }
 
   setUrl(parentURL: String) {

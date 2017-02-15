@@ -9,7 +9,7 @@ export class CreatorService extends BaseService {
   name: String = 'creators';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/creator/');
+    super(http, '/creator/');
   }
 
   setUrl(parentURL: String) {

@@ -7,14 +7,15 @@ import { BaseService } from './base.service';
 export class AwardService extends BaseService {
   id: string = 'id_award';
   idNested: string = 'id_grant';
-  urlId: string = 'http://localhost:8000/awards/';
-  urlNested: string = 'http://localhost:8000/grants/'
+  host: String = 'http://localhost:8000';
+  urlId: string = this.host + '/awards/';
+  urlNested: string = this.host + '/grants/'
   name: string = 'awards';
   grantUrl = '/grants';
   isNested: boolean = true;
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/awards/');
+    super(http, '/awards/');
   }
 
   setUrl(parentURL: string) {

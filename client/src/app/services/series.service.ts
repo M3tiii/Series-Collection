@@ -9,7 +9,7 @@ export class SeriesService extends BaseService {
   name: String = 'Series';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/series/');
+    super(http, '/series/');
   }
 
   post(value: any) {

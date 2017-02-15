@@ -9,7 +9,7 @@ export class DirectorService extends BaseService {
   name: String = 'directors';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/director/');
+    super(http, '/director/');
   }
 
   setUrl(parentURL: String) {

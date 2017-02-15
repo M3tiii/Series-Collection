@@ -4,10 +4,11 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BaseService {
-  apiURL: String = 'http://localhost:8000/series/';
+  host: String = 'http://localhost:8000';
+  apiURL: String = this.host + '/series/';
   isNested: boolean = false;
 
-  constructor(private http: Http, private fullURL) { }
+  constructor(private http: Http, private fullURL) { this.fullURL = this.host + this.fullURL }
 
   get(url: string = this.fullURL) {
     return this.http.get(url)

@@ -9,7 +9,7 @@ export class StatsService extends BaseService {
   name: String = 'Stats';
 
   constructor(http: Http) {
-    super(http, 'http://localhost:8000/series/');
+    super(http, '/series/');
   }
 
   setUrl(parentURL: string) {
