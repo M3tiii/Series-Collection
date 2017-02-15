@@ -9,14 +9,11 @@ class PersonSerializer(serializers.HyperlinkedModelSerializer):
 class DirectorSerializer(PersonSerializer):
     class Meta:
         model = Director
-        #fields = ('__all__') #+id_director
-        # exclude = ('id_director',) #needs to be a list or tuple. thats why ','
         fields = ('id_director', 'url', 'name', 'surname', 'birthDate')
 
 class CreatorSerializer(PersonSerializer):
     class Meta:
         model = Creator
-        # exclude = ('id_creator', 'name')
         fields = ('id_creator', 'url', 'name', 'surname', 'birthDate')
 
 class ActorSerializer(PersonSerializer):
@@ -72,13 +69,3 @@ class StatSerializer(serializers.HyperlinkedModelSerializer):
         series_pk = self.context['view'].kwargs['series_pk']
         kwargs['series'] = Series.objects.get(pk=series_pk)
         return super(StatSerializer, self).save(*args, **kwargs)
-
-# class StatSeriesSerializer(StatSerializer):
-#     class Meta:
-#         model = StatSeries
-#         fields = ('__all__')
-#
-# class StatEpisodeSerializer(StatSerializer):
-#     class Meta:
-#         model = StatEpisode
-#         fields = ('__all__')

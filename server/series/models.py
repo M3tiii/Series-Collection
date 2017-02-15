@@ -67,7 +67,7 @@ class Season(models.Model):
         unique_together = ("series", "number")
 
 class Episode(models.Model):
-    series = models.ForeignKey(Series)  #TODO
+    series = models.ForeignKey(Series)
     season = models.ForeignKey(Season)
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, default="", blank=True)
