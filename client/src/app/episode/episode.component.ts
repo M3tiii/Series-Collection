@@ -15,7 +15,7 @@ export class EpisodeComponent implements OnInit {
   constructor(private service: EpisodeService) {
     this.elements = [];
     setupElements(this.elements, [
-      { header: "ID", value: "id", isSortable: true, isEditable: false },
+      { header: "Number", value: "number", isSortable: true, isEditable: true },
       { header: "Title", value: "title", isSortable: true, isEditable: true },
       { header: "Release Date", value: "releaseDate", isSortable: true, isEditable: true },
       { header: "Runtime", value: "runtime", isSortable: true, isEditable: true },

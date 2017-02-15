@@ -77,8 +77,10 @@ class Episode(models.Model):
         stats.save()
         return super(Episode, self).delete(*args, **kwargs)
     def save(self, *args, **kwargs):
+        tmp_pk = self.pk
+        instance = super(Episode, self).save(*args, **kwargs)
         stats = Stat.objects.filter(series=self.series.title).first()
-        if not self.pk:
+        if not tmp_pk:
             self.season.episodes += 1
             self.season.save()
         else:
@@ -86,7 +88,6 @@ class Episode(models.Model):
         stats.views += self.views
         stats.updateAverage()
         stats.save()
-        return super(Episode, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ("series", "season", "number")
