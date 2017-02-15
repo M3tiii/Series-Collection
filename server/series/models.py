@@ -95,7 +95,7 @@ class Stat(models.Model):
     series = models.ForeignKey(Series)
     id = models.AutoField(primary_key=True)
     views = models.IntegerField(default=0, validators = [MinValueValidator(0)])
-    avViews = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    avViews = models.DecimalField(default=0, validators = [MinValueValidator(0)], decimal_places=2, max_digits=100)
     ratingF = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     ratingI = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     votesF = models.IntegerField(default=0, validators = [MinValueValidator(0)])
