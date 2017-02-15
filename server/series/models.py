@@ -51,6 +51,10 @@ class Season(models.Model):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(default=1, validators = [MinValueValidator(1)])
     episodes = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    def delete(self, *args, **kwargs):
+        for e in Episode.objects.filter(season=self.id):
+            e.delete()
+        return super(Season, self).delete(*args, **kwargs)
 
     class Meta:
         unique_together = ("series", "number")
@@ -60,7 +64,7 @@ class Episode(models.Model):
     season = models.ForeignKey(Season)
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(default=1, validators = [MinValueValidator(1)])
-    title = models.CharField(max_length=100, default="", blank=True)
+    title = models.CharField(max_length=100, default="lol", blank=True)
     releaseDate = models.DateField(default=date.today, blank=True)
     runtime = models.IntegerField(default=0, validators = [MinValueValidator(0)], blank=True)
     views = models.IntegerField(default=0, validators = [MinValueValidator(0)])
