@@ -35,7 +35,8 @@ export class StatsComponent implements OnInit {
       { title: 'Votes', name: 'votesF', type: 'number', rating: false, isError: false, errorText: '', isDisabled: false },
       { title: 'IMDb', name: 'ratingI', type: 'number', rating: true, isError: false, errorText: '', isDisabled: false },
       { title: 'Votes', name: 'votesI', type: 'number', rating: false, isError: false, errorText: '', isDisabled: false },
-      { title: 'Views', name: 'views', type: 'number', rating: false, isError: false, errorText: '', isDisabled: true }
+      { title: 'Views', name: 'views', type: 'number', rating: false, isError: false, errorText: '', isDisabled: true },
+      { title: 'Average views', name: 'avViews', type: 'number', rating: false, isError: false, errorText: '', isDisabled: true }
     ]
     this.errorExternal = [];
     this.parent = value;
