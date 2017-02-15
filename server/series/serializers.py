@@ -67,7 +67,7 @@ class EpisodeSerializer(serializers.HyperlinkedModelSerializer):
 class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Stat
-        fields = ('id', 'views', 'ratingF', 'ratingI', 'votesF', 'votesI')
+        fields = ('id', 'views', 'avViews', 'ratingF', 'ratingI', 'votesF', 'votesI')
     def save(self, *args, **kwargs):
         series_pk = self.context['view'].kwargs['series_pk']
         kwargs['series'] = Series.objects.get(pk=series_pk)

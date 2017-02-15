@@ -64,7 +64,7 @@ class Season(models.Model):
     episodes = models.IntegerField(default=0, validators = [MinValueValidator(0)])
 
     class Meta:
-        unique_together = ("series_title", "number")
+        unique_together = ("series", "number")
 
 class Episode(models.Model):
     series = models.ForeignKey(Series)  #TODO
@@ -83,6 +83,7 @@ class Episode(models.Model):
         self.season.save()
         stats = Stat.objects.filter(series=self.series.title).first()
         stats.views -= self.views
+        stats.updateAverage()
         stats.save()
         return super(Episode, self).delete(*args, **kwargs)
     def save(self, *args, **kwargs):
@@ -93,6 +94,7 @@ class Episode(models.Model):
         else:
             stats.views -= self.prevViews
         stats.views += self.views
+        stats.updateAverage()
         stats.save()
         return super(Episode, self).save(*args, **kwargs)
 
@@ -104,9 +106,16 @@ class StatManager(models.Manager):
 class Stat(models.Model):
     series = models.ForeignKey(Series)
     id = models.AutoField(primary_key=True)
-    views = models.PositiveIntegerField(default=0, validators = [MinValueValidator(0)])
-    ratingF = models.PositiveIntegerField(default=0, validators = [MinValueValidator(0)])
-    ratingI = models.PositiveIntegerField(default=0, validators = [MinValueValidator(0)])
-    votesF = models.PositiveIntegerField(default=0, validators = [MinValueValidator(0)])
-    votesI = models.PositiveIntegerField(default=0, validators = [MinValueValidator(0)])
+    views = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    avViews = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    ratingF = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    ratingI = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    votesF = models.IntegerField(default=0, validators = [MinValueValidator(0)])
+    votesI = models.IntegerField(default=0, validators = [MinValueValidator(0)])
     objects = StatManager()
+
+    def updateAverage(self):
+        allEpisodes = 0
+        for s in Season.objects.filter(series=self.series):
+            allEpisodes += s.episodes
+        self.avViews = self.views / allEpisodes
