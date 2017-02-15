@@ -20,3 +20,7 @@ Run server:
 - `cd client`  
 - `npm install`  
 - `npm start`  
+
+Required:
+ - locally enabled cross origin
+ - installed node.js > 6.0
